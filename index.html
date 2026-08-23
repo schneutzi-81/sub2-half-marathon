@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sub-2:00 Half Marathon</title>
+<style>
+  :root {
+    --bg:        #f7f7f5;
+    --surface:   #ffffff;
+    --surface-2: #f0efec;
+    --border:    #e0dedb;
+    --text:      #1a1a18;
+    --text-dim:  #6b6a66;
+    --accent:    #b8562f;
+    --ok:        #2f7a4f;
+    --warn:      #a8641a;
+    --warn-bg:   #fdf4e6;
+    --t-rest:    #8a8986;
+    --t-easy:    #3d7ea6;
+    --t-workout: #b8562f;
+    --t-long:    #6b5b95;
+    --t-race:    #b8253f;
+    --radius: 10px;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #16161a;
+      --surface:   #1e1e23;
+      --surface-2: #26262c;
+      --border:    #32323a;
+      --text:      #e8e8e4;
+      --text-dim:  #9a998f;
+      --accent:    #e08a5f;
+      --ok:        #5cb385;
+      --warn:      #d99a4e;
+      --warn-bg:   #2e2415;
+      --t-rest:    #7a7975;
+      --t-easy:    #6aa8cc;
+      --t-workout: #e08a5f;
+      --t-long:    #9b8bc4;
+      --t-race:    #e05f78;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #16161a;
+    --surface:   #1e1e23;
+    --surface-2: #26262c;
+    --border:    #32323a;
+    --text:      #e8e8e4;
+    --text-dim:  #9a998f;
+    --accent:    #e08a5f;
+    --ok:        #5cb385;
+    --warn:      #d99a4e;
+    --warn-bg:   #2e2415;
+    --t-rest:    #7a7975;
+    --t-easy:    #6aa8cc;
+    --t-workout: #e08a5f;
+    --t-long:    #9b8bc4;
+    --t-race:    #e05f78;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  /* ---- header ---- */
+  header { margin-bottom: 26px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--text-dim); margin: 0 0 8px;
+  }
+  h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.1; margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--text-dim); margin: 0; font-size: 15px; }
+
+  .countdown {
+    display: flex; align-items: baseline; gap: 10px;
+    margin-top: 18px; padding: 14px 18px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); border-left: 3px solid var(--accent);
+  }
+  .countdown .n { font-size: 34px; font-weight: 700; font-family: var(--mono); line-height: 1; }
+  .countdown .lbl { color: var(--text-dim); font-size: 14px; }
+
+  /* ---- generic card ---- */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px; margin-bottom: 16px;
+  }
+  h2 {
+    font-size: 12px; font-family: var(--mono); letter-spacing: .12em;
+    text-transform: uppercase; color: var(--text-dim);
+    margin: 34px 0 12px; font-weight: 600;
+  }
+
+  .banner {
+    background: var(--warn-bg); border: 1px solid var(--warn);
+    border-radius: var(--radius); padding: 14px 18px; margin-bottom: 16px;
+    font-size: 14px;
+  }
+  .banner strong { color: var(--warn); }
+
+  /* ---- stats ---- */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; }
+  .stat .k { font-size: 11px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--text-dim); }
+  .stat .v { font-size: 21px; font-weight: 650; font-family: var(--mono); margin-top: 3px; letter-spacing: -.01em; }
+  .stat .n { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .stat.bad .v { color: var(--t-race); }
+  .stat.good .v { color: var(--ok); }
+
+  /* ---- progress ---- */
+  .bar { height: 7px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 10px 0 6px; }
+  .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .3s ease; }
+
+  /* ---- weeks ---- */
+  .week { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+  .week-head { padding: 15px 18px; border-bottom: 1px solid var(--border); }
+  .week-head .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .week-head h3 { margin: 0; font-size: 16px; letter-spacing: -.01em; }
+  .week-head .meta { font-family: var(--mono); font-size: 12px; color: var(--text-dim); white-space: nowrap; }
+  .week-head .focus { margin: 6px 0 0; font-size: 13.5px; color: var(--text-dim); }
+
+  .day {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 11px 18px; border-bottom: 1px solid var(--border);
+  }
+  .day:last-child { border-bottom: 0; }
+  .day.today { background: var(--surface-2); }
+  .day.done .day-title { text-decoration: line-through; opacity: .5; }
+  .day.done .day-detail { opacity: .45; }
+
+  .day input[type=checkbox] { margin-top: 4px; width: 16px; height: 16px; accent-color: var(--accent); flex-shrink: 0; cursor: pointer; }
+  .day-body { flex: 1; min-width: 0; }
+  .day-line { display: flex; gap: 9px; align-items: baseline; flex-wrap: wrap; }
+  .dow { font-family: var(--mono); font-size: 11px; color: var(--text-dim); width: 54px; flex-shrink: 0; }
+  .day-title { font-weight: 560; font-size: 14.5px; }
+  .day-detail { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+  .pill {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .07em; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 4px; border: 1px solid currentColor; opacity: .85; flex-shrink: 0;
+  }
+  .pill.rest { color: var(--t-rest); } .pill.easy { color: var(--t-easy); }
+  .pill.workout { color: var(--t-workout); } .pill.long { color: var(--t-long); }
+  .pill.race { color: var(--t-race); }
+  .day.key .day-title { color: var(--accent); }
+
+  /* ---- tables ---- */
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 420px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  th { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--text-dim); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .tone-goal td.num { color: var(--accent); font-weight: 600; }
+  .tone-hard td.num { color: var(--t-workout); }
+
+  /* ---- keys ---- */
+  .key-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .key-item:last-child { border-bottom: 0; }
+  .key-item h4 { margin: 0 0 3px; font-size: 14.5px; }
+  .key-item p { margin: 0; font-size: 13.5px; color: var(--text-dim); }
+
+  ul.plain { margin: 0; padding-left: 18px; font-size: 14px; }
+  ul.plain li { margin-bottom: 4px; }
+
+  /* ---- update box ---- */
+  .update pre {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 13px 15px; font-family: var(--mono); font-size: 12.5px;
+    white-space: pre-wrap; word-break: break-word; margin: 10px 0 0; line-height: 1.5;
+  }
+  button {
+    font: inherit; font-size: 13px; font-weight: 550;
+    background: var(--accent); color: #fff; border: 0;
+    padding: 8px 15px; border-radius: 7px; cursor: pointer; margin-top: 11px;
+  }
+  button:hover { opacity: .9; }
+  button.ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+
+  footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-dim); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow" id="eyebrow">Training Plan</p>
+    <h1 id="title">Sub-2:00 Half Marathon</h1>
+    <p class="sub" id="subtitle"></p>
+    <div class="countdown">
+      <span class="n" id="cd-num">—</span>
+      <span class="lbl" id="cd-lbl"></span>
+    </div>
+  </header>
+
+  <div id="banner"></div>
+
+  <h2>Where you stand</h2>
+  <div class="stats" id="stats"></div>
+
+  <h2>Benchmarks</h2>
+  <div class="stats" id="benchmarks"></div>
+
+  <h2>Progress</h2>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;font-size:13.5px">
+      <span id="prog-label">—</span><span id="prog-pct" class="num" style="font-family:var(--mono);color:var(--text-dim)"></span>
+    </div>
+    <div class="bar"><i id="prog-bar" style="width:0%"></i></div>
+    <button class="ghost" id="reset">Reset all checkboxes</button>
+  </div>
+
+  <h2>The plan</h2>
+  <div id="weeks"></div>
+
+  <h2>Pace targets</h2>
+  <div class="card scroll">
+    <table>
+      <thead><tr><th>Zone</th><th>Pace /km</th><th>Cue</th></tr></thead>
+      <tbody id="paces"></tbody>
+    </table>
+  </div>
+
+  <h2>Race day</h2>
+  <div class="card scroll">
+    <table>
+      <thead><tr><th>Segment</th><th>Pace</th><th>Elapsed</th><th>Cue</th></tr></thead>
+      <tbody id="splits"></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <strong style="font-size:14px">Fuelling</strong>
+    <ul class="plain" id="fuel" style="margin-top:6px"></ul>
+    <p style="margin:12px 0 0;font-size:13.5px;color:var(--warn)" id="race-warn"></p>
+  </div>
+
+  <h2>What decides this</h2>
+  <div class="card" id="keys"></div>
+
+  <h2>If the body pushes back</h2>
+  <div class="card"><p style="margin:0;font-size:14px" id="bailout"></p></div>
+
+  <h2>Update this page</h2>
+  <div class="card update">
+    <p style="margin:0;font-size:13.5px;color:var(--text-dim)">
+      GitHub Pages is static — it can't reach Garmin on its own. To refresh, paste this to Claude:
+    </p>
+    <pre id="prompt"></pre>
+    <button id="copy">Copy prompt</button>
+  </div>
+
+  <footer>
+    <span>Last updated <span id="updated"></span></span>
+    <span id="source"></span>
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var D = window.TRAINING_DATA;
+  if (!D) { document.body.innerHTML = '<p style="padding:40px;font-family:sans-serif">data.js failed to load.</p>'; return; }
+
+  var STORE = 'sub2hm.done.v1';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+
+  /* localStorage can throw in private mode / blocked-cookie contexts */
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { return {}; }
+  }
+  function save(v) {
+    try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) { /* non-fatal */ }
+  }
+  var done = load();
+
+  var todayISO = new Date().toISOString().slice(0, 10);
+
+  /* ---------- header ---------- */
+  $('eyebrow').textContent = D.race.name + ' · ' + D.race.date;
+  $('subtitle').textContent = D.race.goalLabel + ' — targeting ' + D.race.targetLabel +
+                              ' at ' + D.race.targetPace + ' /km';
+
+  var days = Math.ceil((new Date(D.race.date + 'T00:00:00') - new Date(todayISO + 'T00:00:00')) / 86400000);
+  if (days > 1)       { $('cd-num').textContent = days;  $('cd-lbl').textContent = 'days until race day'; }
+  else if (days === 1){ $('cd-num').textContent = '1';   $('cd-lbl').textContent = 'day to go — rest up'; }
+  else if (days === 0){ $('cd-num').textContent = 'Today'; $('cd-lbl').textContent = 'Race day. Go get it.'; }
+  else                { $('cd-num').textContent = 'Done'; $('cd-lbl').textContent = 'Race day has passed.'; }
+
+  /* ---------- banner ---------- */
+  if (D.status.warning) {
+    $('banner').innerHTML = '<div class="banner"><strong>Heads up.</strong> ' + esc(D.status.warning) + '</div>';
+  }
+
+  /* ---------- stat helper ---------- */
+  function statCard(k, v, n, cls) {
+    return '<div class="stat ' + (cls || '') + '">' +
+             '<div class="k">' + esc(k) + '</div>' +
+             '<div class="v">' + esc(v) + '</div>' +
+             (n ? '<div class="n">' + esc(n) + '</div>' : '') +
+           '</div>';
+  }
+
+  var s = D.status;
+  $('stats').innerHTML = [
+    statCard('Garmin prediction', s.garminPrediction, s.predictionNote, s.onTrack ? 'good' : 'bad'),
+    statCard('Readiness', s.readinessScore + '/100', s.readinessLevel, s.readinessScore < 30 ? 'bad' : (s.readinessScore > 65 ? 'good' : '')),
+    statCard('Recovery clock', s.recoveryHours + ' h', s.recoveryHours > 24 ? 'still counting down' : 'clear'),
+    statCard('Resting HR', s.restingHR + ' bpm', '7-day avg ' + s.rhr7Day),
+    statCard('Last week', s.lastWeekKm + ' km', 'running volume'),
+    statCard('Acute load', s.acuteLoad, '')
+  ].join('');
+
+  $('benchmarks').innerHTML = D.benchmarks.map(function (b) {
+    return statCard(b.label, b.value, b.note);
+  }).join('');
+
+  /* ---------- weeks ---------- */
+  function isSession(d) { return d.type !== 'rest'; }
+
+  function render() {
+    $('weeks').innerHTML = D.weeks.map(function (w) {
+      var rows = w.days.map(function (d) {
+        var id = d.date;
+        var isDone = !!done[id];
+        var cls = ['day', d.type, isDone ? 'done' : '', d.date === todayISO ? 'today' : '', d.key ? 'key' : ''].join(' ');
+        return '<label class="' + cls + '" for="cb-' + id + '">' +
+                 '<input type="checkbox" id="cb-' + id + '" data-d="' + id + '"' + (isDone ? ' checked' : '') + '>' +
+                 '<div class="day-body">' +
+                   '<div class="day-line">' +
+                     '<span class="dow">' + esc(d.dow) + ' ' + esc(d.date.slice(8)) + '/' + esc(d.date.slice(5, 7)) + '</span>' +
+                     '<span class="day-title">' + esc(d.title) + '</span>' +
+                     '<span class="pill ' + d.type + '">' + esc(d.type) + '</span>' +
+                   '</div>' +
+                   (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') +
+                 '</div>' +
+               '</label>';
+      }).join('');
+
+      return '<section class="week">' +
+               '<div class="week-head">' +
+                 '<div class="top"><h3>' + esc(w.label) + '</h3>' +
+                 '<span class="meta">' + esc(w.range) + ' · ' + esc(w.volumeKm) + ' km</span></div>' +
+                 (w.focus ? '<p class="focus">' + esc(w.focus) + '</p>' : '') +
+               '</div>' + rows +
+             '</section>';
+    }).join('');
+
+    Array.prototype.forEach.call(document.querySelectorAll('.day input'), function (cb) {
+      cb.addEventListener('change', function () {
+        if (cb.checked) { done[cb.dataset.d] = 1; } else { delete done[cb.dataset.d]; }
+        save(done); render();
+      });
+    });
+
+    progress();
+  }
+
+  function progress() {
+    var all = [], hit = 0;
+    D.weeks.forEach(function (w) {
+      w.days.forEach(function (d) { if (isSession(d)) { all.push(d); if (done[d.date]) hit++; } });
+    });
+    var pct = all.length ? Math.round(hit / all.length * 100) : 0;
+    $('prog-bar').style.width = pct + '%';
+    $('prog-label').textContent = hit + ' of ' + all.length + ' sessions logged';
+    $('prog-pct').textContent = pct + '%';
+  }
+
+  render();
+
+  $('reset').addEventListener('click', function () {
+    done = {}; save(done); render();
+  });
+
+  /* ---------- tables ---------- */
+  $('paces').innerHTML = D.paces.map(function (p) {
+    return '<tr class="tone-' + esc(p.tone) + '"><td>' + esc(p.zone) + '</td>' +
+           '<td class="num">' + esc(p.pace) + '</td><td>' + esc(p.cue) + '</td></tr>';
+  }).join('');
+
+  $('splits').innerHTML = D.racePlan.splits.map(function (r) {
+    return '<tr><td class="num">' + esc(r.seg) + '</td><td class="num">' + esc(r.pace) + '</td>' +
+           '<td class="num">' + esc(r.elapsed) + '</td><td>' + esc(r.cue) + '</td></tr>';
+  }).join('');
+
+  $('fuel').innerHTML = D.racePlan.fueling.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('');
+  $('race-warn').textContent = D.racePlan.warning;
+
+  $('keys').innerHTML = D.keys.map(function (k) {
+    return '<div class="key-item"><h4>' + esc(k.title) + '</h4><p>' + esc(k.body) + '</p></div>';
+  }).join('');
+
+  $('bailout').textContent = D.bailout;
+
+  /* ---------- update prompt ---------- */
+  var promptText =
+    'Pull my latest Garmin data and update my sub-2 half marathon site.\n\n' +
+    'Repo: sub2-half-marathon (rewrite data.js only, leave index.html alone).\n\n' +
+    'Refresh: race prediction, training readiness, recovery hours, resting HR + 7-day avg,\n' +
+    'last week running volume, and acute load. Re-check whether the remaining weeks still\n' +
+    'make sense given how the last block actually went, and adjust the sessions if not.\n' +
+    'Flag it plainly if sub-2:00 no longer looks realistic.';
+  $('prompt').textContent = promptText;
+
+  $('copy').addEventListener('click', function () {
+    var btn = $('copy');
+    function ok() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy prompt'; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(promptText).then(ok, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = promptText; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { btn.textContent = 'Select and copy manually'; }
+      document.body.removeChild(ta);
+    }
+  });
+
+  /* ---------- footer ---------- */
+  $('updated').textContent = D.meta.lastUpdated;
+  $('source').textContent = D.meta.source;
+})();
+</script>
+</body>
+</html>
