@@ -1,0 +1,7 @@
+# Keep line endings deterministic so `git status` stays quiet
+# and GitHub Pages serves exactly what is committed.
+*.html text eol=lf
+*.js   text eol=lf
+*.md   text eol=lf
+*.url  text eol=crlf
+*.cmd  text eol=crlf
