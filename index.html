@@ -287,32 +287,46 @@
   }
   var done = load();
 
-  var todayISO = new Date().toISOString().slice(0, 10);
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  /* Local calendar date. Not toISOString() — that is UTC, and rolls over
+     early for anyone east of Greenwich (in CEST it reports yesterday until
+     02:00 local). */
+  function localDateISO(dt) {
+    return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
+  }
+
+  var todayISO = localDateISO(new Date());
 
   /* ---------- header ---------- */
-  $('eyebrow').textContent = D.race.name + ' · ' + D.race.date;
+  $('eyebrow').textContent = D.race.name + ' · ' + D.race.date +
+                             (D.race.startLabel ? ' · ' + D.race.startLabel : '');
   $('subtitle').textContent = D.race.goalLabel + ' — targeting ' + D.race.targetLabel +
                               ' at ' + D.race.targetPace + ' /km';
 
+  /* Counts down to the actual gun time. data.js carries startsAt with an
+     explicit UTC offset, so this is right from any timezone; falls back to
+     local midnight on race day if startsAt is missing. */
+  var raceStart = new Date(D.race.startsAt || (D.race.date + 'T00:00:00'));
+
   function updateCountdown() {
     var now = new Date();
-    var raceDate = new Date(D.race.date + 'T00:00:00');
-    var msLeft = raceDate - now;
+    var msLeft = raceStart - now;
     if (msLeft > 0) {
       var totalSecs = Math.floor(msLeft / 1000);
       var d = Math.floor(totalSecs / 86400);
       var h = Math.floor((totalSecs % 86400) / 3600);
       var m = Math.floor((totalSecs % 3600) / 60);
       var s = totalSecs % 60;
-      function pad(n) { return n < 10 ? '0' + n : '' + n; }
       if (d > 0) {
         $('cd-num').textContent = d + 'd ' + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
-        $('cd-lbl').textContent = 'until race day';
+        $('cd-lbl').textContent = 'until the gun';
       } else {
         $('cd-num').textContent = pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
         $('cd-lbl').textContent = 'to go — rest up';
       }
-    } else if (msLeft > -86400000) {
+    } else if (localDateISO(now) === D.race.date) {
+      /* Gun has gone but it is still race day, local time. */
       $('cd-num').textContent = 'Today';
       $('cd-lbl').textContent = 'Race day. Go get it.';
     } else {

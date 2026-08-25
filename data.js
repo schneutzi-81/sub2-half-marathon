@@ -20,6 +20,12 @@ window.TRAINING_DATA = {
   race: {
     name: "Half Marathon",
     date: "2026-09-20",
+    /* Gun time as an absolute instant. The explicit +02:00 offset matters:
+       it keeps the countdown correct from any timezone, and Sep 20 is still
+       CEST (DST ends Oct 25). If your wave goes off later than the gun,
+       put the wave time here instead. */
+    startsAt: "2026-09-20T09:00:00+02:00",
+    startLabel: "09:00 CEST",
     distanceKm: 21.0975,
     goalLabel: "Sub-2:00 is off the table",
     targetLabel: "2:03:30 (PR by 1:21)",
