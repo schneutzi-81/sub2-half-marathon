@@ -13,8 +13,8 @@ window.TRAINING_DATA = {
     /* lastUpdated = when this file was last pulled from Garmin.
        watchSynced = when the watch itself last reached Garmin Connect.
        If watchSynced is hours old, the numbers below are that stale. */
-    lastUpdated: "2026-08-25 11:58 CEST",
-    source: "Garmin Connect (Forerunner 970 / HRM 600 / Edge Explore 2) · watch last synced 2026-08-25 07:32 CEST"
+    lastUpdated: "2026-08-26 08:09 CEST",
+    source: "Garmin Connect (Forerunner 970 / HRM 600 / Edge Explore 2) · watch data ends 2026-08-26 07:56 CEST"
   },
 
   race: {
@@ -35,18 +35,18 @@ window.TRAINING_DATA = {
 
   /* --- Snapshot of where fitness actually is right now --- */
   status: {
-    garminPrediction: "2:00:47",
-    predictionNote: "Speed-derived. It does not know your longest run is 12 km.",
+    garminPrediction: "2:00:51",
+    predictionNote: "Drifting the wrong way: 2:00:42 → 2:00:47 → 2:00:51",
     onTrack: false,
-    readinessScore: 27,
-    readinessLevel: "LOW · HIGH RECOVERY NEEDS",
-    recoveryHours: 48.8,
-    restingHR: 57,
-    rhr7Day: 57,
+    readinessScore: 26,
+    readinessLevel: "LOW · sleep + HRV inputs missing",
+    recoveryHours: 46.9,
+    restingHR: 62,
+    rhr7Day: "58 — 3 nights untracked",
     lastWeekKm: 34.5,
-    acuteLoad: 435,
-    headline: "Recovery is healing. Endurance is not there, and 26 days will not build it.",
-    warning: "Sub-2:00 is no longer a realistic target for Sep 20 — your longest run in eight weeks is 12.3 km and the race is 21.1 km. The plan below is rebuilt around a PR attempt at 2:03:30. Read the three keys at the bottom before you argue with it."
+    acuteLoad: 481,
+    headline: "Tuesday's easy run was exactly right. The watch has not recorded a night's sleep since Aug 23, and it is quietly wrecking these numbers.",
+    warning: "Two things. Sub-2:00 is still not realistic for Sep 20 — your longest run in eight weeks has now dropped to 11.0 km against a 21.1 km race. And your last three nights have no sleep data, so today's readiness (26) and resting HR (62) are measuring your watch, not your body. Wear it to bed tonight before reading anything into them."
   },
 
   /* --- Fixed reference points from your Garmin history --- */
@@ -55,7 +55,7 @@ window.TRAINING_DATA = {
     { label: "10K PR",             value: "54:07",       note: "5:25 /km" },
     { label: "5K PR",              value: "25:43",       note: "5:09 /km" },
     { label: "Latest 10K",         value: "54:47",       note: "Aug 23 · 5:28 /km · HR 158 · TE 5.0 (max)" },
-    { label: "Longest run (8 wk)", value: "12.3 km",     note: "Jun 25 · this is the whole problem" },
+    { label: "Longest run (8 wk)", value: "11.0 km",     note: "Aug 12 · was 12.3, the big one rolled out" },
     { label: "Volume (10 wk avg)", value: "21 km/wk",    note: "peak 34.5 · plan needs ~34" }
   ],
 
@@ -75,16 +75,16 @@ window.TRAINING_DATA = {
       id: "w1",
       label: "Week 1 — Reset",
       range: "Aug 24 – Aug 30",
-      volumeKm: 30,
-      focus: "Let the 48-hour clock run out, then start the only thing that matters: time on feet.",
+      volumeKm: 31,
+      focus: "Two days banked and on plan. Sunday's 13 km is the first real test.",
       days: [
-        { date: "2026-08-24", dow: "Mon", type: "rest",    title: "OFF",                detail: "Done — cardio + commute rides. Correct call." },
-        { date: "2026-08-25", dow: "Tue", type: "easy",    title: "Easy 5 km — or rest", detail: "Readiness 27 and 48h still on the clock. If it feels like work, walk home. 6:50–7:10 /km, HR under 135." },
-        { date: "2026-08-26", dow: "Wed", type: "rest",    title: "Rest / easy cross",   detail: "Commute rides fine. Nothing that raises your breathing." },
-        { date: "2026-08-27", dow: "Thu", type: "easy",    title: "Easy 7 km + strides", detail: "Recovery clock is clear by now. 6 × 20s strides after." },
+        { date: "2026-08-24", dow: "Mon", type: "rest",    title: "OFF",                 detail: "Done — cardio + two commute rides. Correct call." },
+        { date: "2026-08-25", dow: "Tue", type: "easy",    title: "Easy 5 km",           detail: "Done — 5.8 km @ 6:38 /km, HR 136. On plan. A touch quick for easy, but the HR was honest. · Form: cadence was 153 SPM — your best easy run yet, still under the 160 floor." },
+        { date: "2026-08-26", dow: "Wed", type: "rest",    title: "Rest / easy cross",   detail: "Commute rides fine — yesterday's two were HR 107 and 111, which is exactly right. Nothing that raises your breathing." },
+        { date: "2026-08-27", dow: "Thu", type: "easy",    title: "Easy 7 km",           detail: "Recovery clock still reads 46.9 h, so keep this genuinely easy and skip the strides. 6:45–7:05 /km, HR under 140. · Form: set a metronome to 158 and hold it for 5 min mid-run. Practise form changes on easy days first." },
         { date: "2026-08-28", dow: "Fri", type: "rest",    title: "Rest",                detail: "" },
-        { date: "2026-08-29", dow: "Sat", type: "easy",    title: "Easy 5 km",           detail: "6:45–7:05 /km" },
-        { date: "2026-08-30", dow: "Sun", type: "long",    title: "Long 13 km",          detail: "6:30–6:45 /km, all easy. No fast finish. This is a distance rehearsal, not a workout.", key: true }
+        { date: "2026-08-29", dow: "Sat", type: "easy",    title: "Easy 5 km + strides", detail: "6:45–7:05 /km. 6 × 20s strides after if Thursday felt fine. · Form: strides are cadence practice. Quick and quiet — if you hear your feet slap, you are overstriding." },
+        { date: "2026-08-30", dow: "Sun", type: "long",    title: "Long 13 km",          detail: "6:30–6:45 /km, all easy. No fast finish. This is 2 km longer than anything you have run in eight weeks — treat it with respect. · Form: checklist at km 6 and km 11 — shoulders dropped, lean from the ankles not the waist, hands relaxed, cadence still quick.", key: true }
       ]
     },
     {
@@ -95,12 +95,12 @@ window.TRAINING_DATA = {
       focus: "The Sunday 17 km is the single most important session left in this block.",
       days: [
         { date: "2026-08-31", dow: "Mon", type: "rest",    title: "OFF",                    detail: "" },
-        { date: "2026-09-01", dow: "Tue", type: "easy",    title: "Easy 5 km",              detail: "6:45–7:05 /km" },
-        { date: "2026-09-02", dow: "Wed", type: "workout", title: "4 × 1.5 km @ 5:30",      detail: "90s jog float between. ~9 km with warm-up + cool-down. Threshold, not a race." },
+        { date: "2026-09-01", dow: "Tue", type: "easy",    title: "Easy 5 km",              detail: "6:45–7:05 /km · Form: metronome 160 for 5 min. Breathe 3 steps in, 2 out." },
+        { date: "2026-09-02", dow: "Wed", type: "workout", title: "4 × 1.5 km @ 5:30",      detail: "90s jog float between. ~9 km with warm-up + cool-down. Threshold, not a race. · Form: as the pace lifts, resist reaching. Foot lands under the hips; elbows ~90°, swinging cheek to cheek, never across the midline." },
         { date: "2026-09-03", dow: "Thu", type: "rest",    title: "Rest / easy cross",      detail: "" },
-        { date: "2026-09-04", dow: "Fri", type: "easy",    title: "Easy 4 km + strides",    detail: "4 × 20s strides." },
+        { date: "2026-09-04", dow: "Fri", type: "easy",    title: "Easy 4 km + strides",    detail: "4 × 20s strides. · Form: eyes 10–20 m ahead, imagine a string pulling up from the crown of your head." },
         { date: "2026-09-05", dow: "Sat", type: "rest",    title: "Rest",                   detail: "" },
-        { date: "2026-09-06", dow: "Sun", type: "long",    title: "Long 17 km — DRESS REHEARSAL", detail: "First 12 km @ 6:25, middle-to-late 5 km @ 5:50. Race kit, race breakfast, race gels. This tells you whether 5:50 is real over distance.", key: true }
+        { date: "2026-09-06", dow: "Sun", type: "long",    title: "Long 17 km — DRESS REHEARSAL", detail: "First 12 km @ 6:25, middle-to-late 5 km @ 5:50. Race kit, race breakfast, race gels. This tells you whether 5:50 is real over distance. · Form: checklist at km 6, 11 and 15. Hip extensors fail first — when push-off shortens, shorten the stride and keep the turnover rather than reaching for pace.", key: true }
       ]
     },
     {
@@ -111,12 +111,12 @@ window.TRAINING_DATA = {
       focus: "Long run comes back down. Goal pace should start feeling automatic.",
       days: [
         { date: "2026-09-07", dow: "Mon", type: "rest",    title: "OFF",                 detail: "" },
-        { date: "2026-09-08", dow: "Tue", type: "easy",    title: "Easy 5 km",           detail: "6:45–7:05 /km" },
-        { date: "2026-09-09", dow: "Wed", type: "workout", title: "3 × 2 km @ 5:45",     detail: "3 min jog between. ~10 km total. This is goal pace — it should feel controlled, never strained." },
+        { date: "2026-09-08", dow: "Tue", type: "easy",    title: "Easy 5 km",           detail: "6:45–7:05 /km · Form: metronome 162 for 5 min." },
+        { date: "2026-09-09", dow: "Wed", type: "workout", title: "3 × 2 km @ 5:45",     detail: "3 min jog between. ~10 km total. This is goal pace — it should feel controlled, never strained. · Form: goal pace comes from quicker turnover, not a longer reach." },
         { date: "2026-09-10", dow: "Thu", type: "rest",    title: "Rest / easy cross",   detail: "" },
-        { date: "2026-09-11", dow: "Fri", type: "easy",    title: "Easy 4 km + strides", detail: "" },
+        { date: "2026-09-11", dow: "Fri", type: "easy",    title: "Easy 4 km + strides", detail: "Form: relaxed hands, low shoulders. Nothing forced." },
         { date: "2026-09-12", dow: "Sat", type: "rest",    title: "Rest",                detail: "" },
-        { date: "2026-09-13", dow: "Sun", type: "long",    title: "Long 14 km",          detail: "6:20–6:35 /km, final 3 km @ 5:50. Shorter on purpose — seven days out you bank recovery, not fitness." }
+        { date: "2026-09-13", dow: "Sun", type: "long",    title: "Long 14 km",          detail: "6:20–6:35 /km, final 3 km @ 5:50. Shorter on purpose — seven days out you bank recovery, not fitness. · Form: checklist at km 5, 9 and 12. The final 3 km at 5:50 is where crossing arms creep in." }
       ]
     },
     {
@@ -127,12 +127,12 @@ window.TRAINING_DATA = {
       focus: "Volume drops hard, intensity stays sharp. Arrive fresh, not fitter.",
       days: [
         { date: "2026-09-14", dow: "Mon", type: "rest",    title: "OFF",                  detail: "" },
-        { date: "2026-09-15", dow: "Tue", type: "easy",    title: "Easy 6 km + strides",  detail: "4 × 20s strides." },
-        { date: "2026-09-16", dow: "Wed", type: "workout", title: "5 km w/ 3 km @ 5:50",  detail: "Last touch of goal pace. Stop while it still feels good." },
+        { date: "2026-09-15", dow: "Tue", type: "easy",    title: "Easy 6 km + strides",  detail: "4 × 20s strides. · Form: metronome 165 for 5 min — last cadence session of the block." },
+        { date: "2026-09-16", dow: "Wed", type: "workout", title: "5 km w/ 3 km @ 5:50",  detail: "Last touch of goal pace. Stop while it still feels good. · Form: final rehearsal of race posture. Tall, shoulders low, cheek to cheek." },
         { date: "2026-09-17", dow: "Thu", type: "rest",    title: "Rest",                 detail: "" },
-        { date: "2026-09-18", dow: "Fri", type: "easy",    title: "Easy 4 km",            detail: "3 strides. Legs open, nothing more." },
+        { date: "2026-09-18", dow: "Fri", type: "easy",    title: "Easy 4 km",            detail: "3 strides. Legs open, nothing more. · Form: nothing left to fix. Just feel the rhythm." },
         { date: "2026-09-19", dow: "Sat", type: "rest",    title: "Rest / shakeout",      detail: "Optional 15 min very easy." },
-        { date: "2026-09-20", dow: "Sun", type: "race",    title: "RACE — Half Marathon", detail: "Target 2:03:30. That is a PR by 1:21. Go get it.", key: true }
+        { date: "2026-09-20", dow: "Sun", type: "race",    title: "RACE — Half Marathon", detail: "09:00 gun. Target 2:03:30 — a PR by 1:21. Go get it. · Form: run the checklist at km 5, 10, 15 and 18 — shoulders down, lean from the ankles, hands relaxed, cadence quick.", key: true }
       ]
     }
   ],
@@ -151,25 +151,33 @@ window.TRAINING_DATA = {
       "Gel at ~105 min — the third one matters more than you think",
       "Water at every second station"
     ],
-    warning: "You have not run past 12 km in eight weeks. The risk is not the first half — it is km 16 onward. Start at 6:00 /km and you get to race the last 5 km. Start at 5:35 and you will walk them."
+    warning: "You have not run past 11 km in eight weeks. The risk is not the first half — it is km 16 onward. Start at 6:00 /km and you get to race the last 5 km. Start at 5:35 and you will walk them."
   },
 
-  /* --- The three things that decide this --- */
+  /* --- What actually decides this --- */
   keys: [
     {
-      title: "Speed is not the limiter. Endurance is.",
-      body: "Aug 23 you ran 10 km at 5:28 /km — faster than goal pace — but it cost a maximum aerobic training effect of 5.0 and a 48-hour recovery clock. Meanwhile your longest run in eight weeks is 12.3 km and your 10-week average is 21 km/wk. Garmin's 2:00:47 is extrapolated from speed and knows nothing about that gap. Speed you have; the ability to hold it for 21 km you do not, and four weeks is not enough to build it."
+      title: "Wear the watch to bed — it is corrupting this page",
+      body: "No sleep recorded for the nights into Aug 24, 25 or 26. Garmin derives resting HR mainly from sleep, so without it your RHR gets computed from daytime lows and reads high — which is almost certainly the whole 57 → 62 'rise'. Readiness is worse: sleep, sleep-history and HRV are all reporting NONE today, so a score of 26 is three missing inputs, not a verdict on your legs. Fix this first, then trust the numbers again."
+    },
+    {
+      title: "Speed is not the limiter. Endurance is — and it slipped.",
+      body: "Aug 23 you ran 10 km at 5:28 /km, faster than goal pace, but it cost a maximum aerobic training effect of 5.0. Meanwhile your longest run in eight weeks just fell from 12.3 km to 11.0 km, because the June long run aged out of the window. The race is 21.1 km. Garmin's 2:00:51 is extrapolated from speed and knows nothing about that gap — and it has now drifted the wrong way three pulls running."
     },
     {
       title: "The Sep 6 long run is the keystone",
       body: "17 km, two weeks out, with 5 km at goal pace inside it. If you nail exactly one session in this block, nail that one. It is also your honest read on race day: if 5:50 falls apart in that middle block, race at 6:00 /km and take the PR that is sitting right there."
     },
     {
-      title: "Your easy runs are still too fast",
-      body: "The log is full of runs at HR 138–158 — the moderate rut that costs recovery without building endurance. Easy means HR under 140 and 6:45–7:05 /km. Resting HR has drifted 55 → 57 and readiness is 27/100; that is your body asking for the easy days to be genuinely easy. Keep the bike commutes, keep them flat and gentle."
+      title: "Your cadence is the one form fault worth fixing",
+      body: "Across your last eight runs cadence averages 151 SPM and falls as low as 136 — under the 160 floor on every easy run, against a 170–180 target. It only reaches 163 on your fastest run, which means at easy pace you are reaching with a long, slow stride: the classic overstride, and a braking action that costs you most over distance. That is the same km-16-onward fade this whole plan is built around. Vertical oscillation (8.2 cm) is already in the good band, so leave it alone. The per-session Form cues below build cadence gradually — the source recommends only 5–10% over six weeks, which is why the metronome targets step 158 → 160 → 162 → 165 rather than jumping to 175. Cues adapted from sportcoaching.com.au, 'Best Running Form for Long Distance Success'."
+    },
+    {
+      title: "Tuesday was the template",
+      body: "5.8 km at 6:38 /km, HR 136 — that is what an easy run is supposed to look like, and it is a real change from the HR 138–158 rut the rest of your log sits in. The commute rides at HR 107 and 111 are ideal too. Keep both exactly as they are; they are the reason Sunday's 13 km will be survivable."
     }
   ],
 
   /* --- Escape hatch if the body pushes back --- */
-  bailout: "If readiness is under 30 two mornings running, drop that week's Wednesday workout entirely and keep the long run — endurance beats sharpness this close in. If the Sep 6 17 km leaves you shelled for more than two days, race at 6:00 /km for a 2:06 and treat Sep 20 as the tune-up for a proper 12-week block. A PR you finish strong is worth more than a sub-2 you blow up chasing."
+  bailout: "If readiness is under 30 two mornings running WITH sleep actually tracked, drop that week's Wednesday workout and keep the long run — endurance beats sharpness this close in. If the Sep 6 17 km leaves you shelled for more than two days, race at 6:00 /km for a 2:06 and treat Sep 20 as the tune-up for a proper 12-week block. A PR you finish strong is worth more than a sub-2 you blow up chasing."
 };
