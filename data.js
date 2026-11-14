@@ -16,6 +16,33 @@ window.TRAINING_DATA = {
     source: "Garmin Connect (Forerunner 970) · watch last synced 2026-11-14 ~18:10 CET"
   },
 
+  /* --- Daily tips. The page shows three a day, rotating by date, so each
+     comes back about once a week. cat: run | recovery | strength | fuel | mobility | sleep | mind --- */
+  tips: [
+    { cat: "run",      title: "Easy means easy",                 body: "Your 'base' runs are at HR 146–152. Keep them under ~145, even if that means 6:30 /km. That's where the aerobic base for the marathon comes from." },
+    { cat: "run",      title: "Strides twice a week",            body: "After an easy run: 4–6 × 20 s fast and relaxed, with a full walk back. It's the cheapest way to get the speed Garmin says is missing." },
+    { cat: "run",      title: "Cadence: 160+",                   body: "You've gone from 150 to 157–159. On easy runs, aim for 162–165 with shorter, quicker steps. It means less braking and less load on your knees and shins." },
+    { cat: "run",      title: "Three runs is the minimum",        body: "Every week with three runs beats one hero week of 37 km. That consistency is what's been missing since August, not motivation." },
+    { cat: "run",      title: "Even pacing wins",                 body: "In races and long runs, make the first 3 km your slowest. Your best results (Bramfeld II, the Hammer Lauf half) came from even splits." },
+    { cat: "run",      title: "Hills count as speedwork",         body: "Once a week, 6–8 × 30 s uphill hard with a walk down. That's strength and power for the legs, with less impact than track intervals." },
+    { cat: "recovery", title: "Check readiness in the morning",   body: "Under 40: run easy or rest. 40–65: train as planned. Over 65: the hard session can be properly hard. That's better than going by feel after a long work day." },
+    { cat: "recovery", title: "No two hard days in a row",        body: "Threshold, intervals and long runs each need a calm day after them. Swimming and easy cycling are fine on those days." },
+    { cat: "recovery", title: "Watch your resting HR",            body: "Your normal is 57–58. If it's 5+ beats higher in the morning, you're coming down with something or under-recovered. Make it an easy day." },
+    { cat: "strength", title: "10 minutes, three times a week",   body: "Calf raises, split squats, glute bridges, side plank. Strong calves and hips protect your Achilles and knees once you build to 40–60 km a week." },
+    { cat: "strength", title: "Do Garmin Coach's strength days",  body: "The Base Builder and Core Circuit sessions aren't optional. For the marathon goal, they're injury insurance." },
+    { cat: "strength", title: "Single-leg strength",              body: "Running is a series of one-legged jumps. 3 × 8 Bulgarian split squats per leg, twice a week, is worth more than any new shoe." },
+    { cat: "fuel",     title: "Practise long-run fuelling",       body: "Take a gel or a few sips of sports drink on every run over 75 min. Your gut needs to learn it before the marathon. Never try anything new on race day." },
+    { cat: "fuel",     title: "Breakfast before hard sessions",   body: "Have something light with carbs 1–2 hours before threshold or interval sessions (toast, a banana, porridge). An empty tank makes the session worse, not better." },
+    { cat: "fuel",     title: "Protein after training",           body: "Have a proper meal with protein within an hour or two: quark, eggs, fish, lentils. That's when the training actually turns into fitness." },
+    { cat: "fuel",     title: "Drink before you're thirsty",      body: "Have a glass of water with every meal and before every run. In winter you notice thirst less, but you still lose fluid." },
+    { cat: "mobility", title: "Five minutes after every run",     body: "Calves against a wall, hip flexors in a lunge, hamstrings lying down. 30–45 s each, before you sit down." },
+    { cat: "mobility", title: "Warm up before fast running",      body: "10 min easy jogging, then leg swings, A-skips, 2 strides. Never go into a threshold rep cold. Most strains happen in the first fast minute." },
+    { cat: "sleep",    title: "Sleep is training too",           body: "Your best readiness scores follow good nights. 7.5–8 h before key sessions does more for 5:38 /km than an extra run." },
+    { cat: "sleep",    title: "Wear the watch at night",         body: "Without sleep data, readiness and HRV are just guessing. That happened in September, and the plan was steering blind." },
+    { cat: "mind",     title: "Plan the week on Sunday",         body: "Put the runs in your calendar like customer meetings. With travel and presales trips, an unplanned run is a run that doesn't happen." },
+    { cat: "mind",     title: "Have a travel version",           body: "Hotel week? 30 min easy from the door, or treadmill intervals. Three short runs keep the base. Zero runs undo it." }
+  ],
+
   /* --- The two goals. pred = Garmin's current race prediction. --- */
   goals: [
     { id: "hm", label: "Sub-2:00 Half Marathon", distanceKm: 21.0975, goalSec: 7199,  predSec: 7418,  prSec: 7491,  prNote: "Hammer Lauf Hamburg · 19 Apr 2026",

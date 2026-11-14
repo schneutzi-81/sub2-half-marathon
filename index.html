@@ -190,6 +190,11 @@
   footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-dim); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 
   /* ---- v2 additions ---- */
+  .tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .tip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; }
+  .tip .cat { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .tip h4 { margin: 3px 0 4px; font-size: 14.5px; }
+  .tip p { margin: 0; font-size: 13px; color: var(--text-dim); }
   .next { border-left: 3px solid var(--accent); }
   .next .when { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
   .next .what { font-size: 20px; font-weight: 650; margin: 4px 0 4px; letter-spacing: -.01em; }
@@ -243,6 +248,9 @@
       <span class="lbl" id="cd-lbl"></span>
     </div>
   </header>
+
+  <h2>Tips for today</h2>
+  <div class="tips" id="tips"></div>
 
   <h2>What to do next</h2>
   <div class="card next" id="next"></div>
@@ -376,6 +384,18 @@
     $('cd-lbl').textContent = 'until ' + nextRace.name + ' (' + nextRace.km + ' km)';
   }
   updateCountdown(); setInterval(updateCountdown, 1000);
+
+  /* ---------- tips: three a day, rotating by local date ---------- */
+  if (D.tips && D.tips.length) {
+    var CAT = { run: 'Running', recovery: 'Recovery', strength: 'Strength', fuel: 'Fuel', mobility: 'Mobility', sleep: 'Sleep', mind: 'Habit' };
+    var dayNo = Math.floor(new Date(todayISO + 'T12:00:00').getTime() / 86400000);
+    var n = D.tips.length, pick = [];
+    /* stride 7 across the list so the three tips come from different categories */
+    for (var t = 0; t < Math.min(3, n); t++) pick.push(D.tips[(dayNo * 3 + t * 7) % n]);
+    $('tips').innerHTML = pick.map(function (x) {
+      return '<div class="tip"><div class="cat">' + esc(CAT[x.cat] || x.cat) + '</div><h4>' + esc(x.title) + '</h4><p>' + esc(x.body) + '</p></div>';
+    }).join('');
+  }
 
   /* ---------- what to do next ---------- */
   var sessions = D.schedule.filter(function (d) { return d.date >= todayISO; });
