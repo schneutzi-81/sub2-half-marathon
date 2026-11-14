@@ -256,6 +256,10 @@
   a.vid .play { width: 18px; height: 18px; border-radius: 50%; background: #e62117; position: relative; flex-shrink: 0; }
   a.vid .play::after { content: ""; position: absolute; left: 7px; top: 5px; border-left: 6px solid #fff; border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
   a.vid .min { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); font-weight: 400; }
+  a.vid.sp .play { background: #1db954; }
+  a.vid.sp .play::after { content: "♪"; border: 0; left: 0; right: 0; top: 0; bottom: 0; color: #fff; font-size: 11px; line-height: 18px; text-align: center; }
+  a.vid.sp:hover { border-color: #1db954; }
+  .vid-list .note { display: block; font-size: 12px; color: var(--text-dim); font-weight: 400; margin-top: 2px; }
   .vid-list a.vid { width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 10px; margin-bottom: 8px; }
 
   /* ---- mobile ---- */
@@ -343,7 +347,10 @@
   </div>
   <div id="weeks"></div>
 
-  <h2>Strength &amp; mobility videos</h2>
+  <h2>Running playlists</h2>
+  <div class="card" id="playlists"></div>
+
+  <h2>Training videos</h2>
   <div class="card" id="videos"></div>
 
   <h2>Pace targets</h2>
@@ -451,12 +458,26 @@
     return '<div class="vids">' + keys.map(function (k) {
       var v = D.videos[k]; if (!v) return '';
       return '<a class="vid" href="' + esc(v.url) + '" target="_blank" rel="noopener"><span class="play"></span>' + esc(v.title) +
-             ' <span class="min">' + esc(v.min) + ' min</span></a>';
+             (v.min ? ' <span class="min">' + esc(v.min) + ' min</span>' : '') + '</a>';
     }).join('') + '</div>';
+  }
+  function music(k, withNote) {
+    var v = D.playlists && D.playlists[k]; if (!v) return '';
+    return '<a class="vid sp" href="' + esc(v.url) + '" target="_blank" rel="noopener"><span class="play"></span><span>' + esc(v.title) +
+           (withNote ? '<span class="note">' + esc(v.note) + '</span>' : '') + '</span></a>';
+  }
+  function dayMusic(d) {
+    if (!D.playlistByType || d.type === 'rest' || d.type === 'cross') return '';
+    var k = d.playlist || D.playlistByType[d.type];
+    return k ? '<div class="vids">' + music(k) + '</div>' : '';
+  }
+  if (D.playlists) {
+    $('playlists').innerHTML = '<div class="vid-list">' + Object.keys(D.playlists).map(function (k) { return music(k, true); }).join('') + '</div>' +
+      '<p style="margin:4px 0 0;font-size:12.5px;color:var(--text-dim)">Opens Spotify. The 160–170 bpm lists suit easy runs: step on the beat and your cadence goes up without thinking about it. Each run day in the plan has a matching playlist.</p>';
   }
   if (D.videos) {
     $('videos').innerHTML = '<div class="vid-list">' + Object.keys(D.videos).map(function (k) { return vids([k]); }).join('') + '</div>' +
-      '<p style="margin:4px 0 0;font-size:12.5px;color:var(--text-dim)">Opens YouTube. Two or three short sessions a week are enough. Not on the day before a long run or race.</p>';
+      '<p style="margin:4px 0 0;font-size:12.5px;color:var(--text-dim)">Opens YouTube. Strength: two or three short sessions a week, not on the day before a long run or race.</p>';
   }
 
   /* ---------- tips: three a day, rotating by local date ---------- */
@@ -467,7 +488,7 @@
     /* stride 7 across the list so the three tips come from different categories */
     for (var t = 0; t < Math.min(3, n); t++) pick.push(D.tips[(dayNo * 3 + t * 7) % n]);
     $('tips').innerHTML = pick.map(function (x) {
-      return '<div class="tip"><div class="cat">' + esc(CAT[x.cat] || x.cat) + '</div><h4>' + esc(x.title) + '</h4><p>' + esc(x.body) + '</p>' + vids(x.videos) + '</div>';
+      return '<div class="tip"><div class="cat">' + esc(CAT[x.cat] || x.cat) + '</div><h4>' + esc(x.title) + '</h4><p>' + esc(x.body) + '</p>' + vids(x.videos) + (x.playlist ? '<div class="vids">' + music(x.playlist) + '</div>' : '') + '</div>';
     }).join('');
   }
 
@@ -489,7 +510,7 @@
     if (!pending.length && lightToday) html += '<div class="phase-now" style="margin:0 0 10px">Today: <b>' + esc(lightToday.title) + '</b> — ' + esc(lightToday.detail) + '</div>';
     html += '<div class="when">' + esc(headline.when) + '</div>' +
             '<div class="what">' + esc(headline.d.title) + '</div>' +
-            '<p class="why">' + esc(headline.d.detail) + '</p>' + vids(headline.d.videos);
+            '<p class="why">' + esc(headline.d.detail) + '</p>' + vids(headline.d.videos) + dayMusic(headline.d);
     var rest = sessions.filter(function (d) { return d.date > headline.d.date; }).slice(0, 6);
     if (rest.length) {
       html += '<div class="next-list">' + rest.map(function (d) {
@@ -599,7 +620,7 @@
             '<span class="day-title">' + esc(d.title) + '</span>' +
             '<span class="pill ' + d.type + '">' + esc(d.type) + '</span>' +
             '<span class="src">' + (d.src === 'coach' ? 'Garmin Coach' : d.src === 'adj' ? 'adjusted' : 'suggested') + '</span>' +
-          '</div>' + (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') + vids(d.videos) + '</div></label>';
+          '</div>' + (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') + vids(d.videos) + dayMusic(d) + '</div></label>';
       }).join('');
       return '<section class="week"><div class="week-head"><div class="top"><h3>Week of ' + fmtDate(m) + '</h3>' +
         '<span class="meta">≈ ' + Math.round(km) + ' km planned</span></div></div>' + rows + '</section>';
