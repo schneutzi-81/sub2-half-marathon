@@ -16,6 +16,16 @@ window.TRAINING_DATA = {
     source: "Garmin Connect (Forerunner 970) · watch last synced 2026-11-14 ~18:10 CET"
   },
 
+  /* --- Follow-along videos. Tips and schedule days reference them by key. --- */
+  videos: {
+    strength10: { title: "10-min bodyweight strength for runners", min: 10, url: "https://www.youtube.com/watch?v=dHUqORJAZCI" },
+    legsCore12: { title: "12-min lower body & core for runners",   min: 12, url: "https://www.youtube.com/watch?v=4tV3zgVAWuw" },
+    strength22: { title: "22-min runner strength (beginner bodyweight + core stability)", min: 22, url: "https://www.youtube.com/watch?v=mLQx5nnr0EI" },
+    core10:     { title: "10-min core workout for runners",         min: 10, url: "https://www.youtube.com/watch?v=eiF8aY-MTqU" },
+    bulgarian:  { title: "How to do Bulgarian split squats",         min: 5,  url: "https://www.youtube.com/watch?v=VPhhE6bBzZE" },
+    stretch7:   { title: "7-min post-run stretch",                    min: 7,  url: "https://www.youtube.com/watch?v=RtO-EDVQpgI" }
+  },
+
   /* --- Daily tips. The page shows three a day, rotating by date, so each
      comes back about once a week. cat: run | recovery | strength | fuel | mobility | sleep | mind --- */
   tips: [
@@ -28,14 +38,14 @@ window.TRAINING_DATA = {
     { cat: "recovery", title: "Check readiness in the morning",   body: "Under 40: run easy or rest. 40–65: train as planned. Over 65: the hard session can be properly hard. That's better than going by feel after a long work day." },
     { cat: "recovery", title: "No two hard days in a row",        body: "Threshold, intervals and long runs each need a calm day after them. Swimming and easy cycling are fine on those days." },
     { cat: "recovery", title: "Watch your resting HR",            body: "Your normal is 57–58. If it's 5+ beats higher in the morning, you're coming down with something or under-recovered. Make it an easy day." },
-    { cat: "strength", title: "10 minutes, three times a week",   body: "Calf raises, split squats, glute bridges, side plank. Strong calves and hips protect your Achilles and knees once you build to 40–60 km a week." },
-    { cat: "strength", title: "Do Garmin Coach's strength days",  body: "The Base Builder and Core Circuit sessions aren't optional. For the marathon goal, they're injury insurance." },
-    { cat: "strength", title: "Single-leg strength",              body: "Running is a series of one-legged jumps. 3 × 8 Bulgarian split squats per leg, twice a week, is worth more than any new shoe." },
+    { cat: "strength", title: "10 minutes, three times a week", videos: ["strength10", "legsCore12"],   body: "Calf raises, split squats, glute bridges, side plank. Strong calves and hips protect your Achilles and knees once you build to 40–60 km a week." },
+    { cat: "strength", title: "Do Garmin Coach's strength days", videos: ["strength22", "core10"],  body: "The Base Builder and Core Circuit sessions aren't optional. For the marathon goal, they're injury insurance." },
+    { cat: "strength", title: "Single-leg strength", videos: ["bulgarian"],              body: "Running is a series of one-legged jumps. 3 × 8 Bulgarian split squats per leg, twice a week, is worth more than any new shoe." },
     { cat: "fuel",     title: "Practise long-run fuelling",       body: "Take a gel or a few sips of sports drink on every run over 75 min. Your gut needs to learn it before the marathon. Never try anything new on race day." },
     { cat: "fuel",     title: "Breakfast before hard sessions",   body: "Have something light with carbs 1–2 hours before threshold or interval sessions (toast, a banana, porridge). An empty tank makes the session worse, not better." },
     { cat: "fuel",     title: "Protein after training",           body: "Have a proper meal with protein within an hour or two: quark, eggs, fish, lentils. That's when the training actually turns into fitness." },
     { cat: "fuel",     title: "Drink before you're thirsty",      body: "Have a glass of water with every meal and before every run. In winter you notice thirst less, but you still lose fluid." },
-    { cat: "mobility", title: "Five minutes after every run",     body: "Calves against a wall, hip flexors in a lunge, hamstrings lying down. 30–45 s each, before you sit down." },
+    { cat: "mobility", title: "Five minutes after every run", videos: ["stretch7"],     body: "Calves against a wall, hip flexors in a lunge, hamstrings lying down. 30–45 s each, before you sit down." },
     { cat: "mobility", title: "Warm up before fast running",      body: "10 min easy jogging, then leg swings, A-skips, 2 strides. Never go into a threshold rep cold. Most strains happen in the first fast minute." },
     { cat: "sleep",    title: "Sleep is training too",           body: "Your best readiness scores follow good nights. 7.5–8 h before key sessions does more for 5:38 /km than an extra run." },
     { cat: "sleep",    title: "Wear the watch at night",         body: "Without sleep data, readiness and HRV are just guessing. That happened in September, and the plan was steering blind." },
@@ -176,15 +186,15 @@ window.TRAINING_DATA = {
   schedule: [
     { date: "2026-11-14", dow: "Sat", type: "cross",   src: "adj",   title: "Swim done, no run", detail: "Garmin Coach had a 15 km long run today. Skip it: tomorrow's race is the long run this week." },
     { date: "2026-11-15", dow: "Sun", type: "race",    src: "adj",   title: "Bramfeld I · 23.3 km · 09:30", detail: "Run it as a long run at 6:20–6:30 /km, which matches your 2:29 goal (6:24). It's longer than anything since April, so start at 6:35 for the first 3 km. Take 2 gels (km 8 and 16). Last year you ran 2:29:33 here: beat it by staying even.", key: true },
-    { date: "2026-11-16", dow: "Mon", type: "cross",   src: "coach", title: "Strength: Base Builder 1 (60 min)", detail: "From Garmin Coach. Keep it light the day after 23 km; drop the leg work if your calves are sore." },
+    { date: "2026-11-16", dow: "Mon", type: "cross",   src: "coach", title: "Strength: Base Builder 1 (60 min)", videos: ["strength22", "legsCore12"], detail: "From Garmin Coach. The workout is on your watch, or follow one of the videos. Keep it light the day after 23 km; drop the leg work if your calves are sore." },
     { date: "2026-11-17", dow: "Tue", type: "workout", src: "adj",   title: "Threshold · 6.3 km @ 5:05 (Garmin Coach)", detail: "If morning readiness is under 50, move it to Wed. These are the anaerobic and threshold minutes Garmin says you're missing." },
     { date: "2026-11-18", dow: "Wed", type: "rest",    src: "coach", title: "Rest", detail: "" },
-    { date: "2026-11-19", dow: "Thu", type: "easy",    src: "coach", title: "Base 8.7 km @ 6:10 + Core Circuit 2", detail: "Keep HR under 145. Your last two 'base' runs were at 146 and 152, which is why the high-aerobic load is over target." },
+    { date: "2026-11-19", dow: "Thu", type: "easy",    src: "coach", title: "Base 8.7 km @ 6:10 + Core Circuit 2", videos: ["core10", "stretch7"], detail: "Keep HR under 145. Your last two 'base' runs were at 146 and 152, which is why the high-aerobic load is over target." },
     { date: "2026-11-20", dow: "Fri", type: "rest",    src: "coach", title: "Rest", detail: "" },
     { date: "2026-11-21", dow: "Sat", type: "easy",    src: "plan",  title: "Easy 5 km + 4 strides", detail: "Follow the Garmin Coach workout if it schedules something different." },
     { date: "2026-11-22", dow: "Sun", type: "long",    src: "plan",  title: "Long 14 km @ 6:30–6:45", detail: "End of the Base phase. Fully conversational.", key: true },
 
-    { date: "2026-11-23", dow: "Mon", type: "rest",    src: "plan",  title: "Rest / strength", detail: "Build phase starts." },
+    { date: "2026-11-23", dow: "Mon", type: "rest",    src: "plan",  title: "Rest / strength", videos: ["strength10", "bulgarian"], detail: "Build phase starts. 10 min strength if you have the energy." },
     { date: "2026-11-24", dow: "Tue", type: "workout", src: "plan",  title: "9 km with 5 × 1 km @ 5:10–5:15", detail: "2 min jog between. 2 km warm-up and cool-down. ~9 km total." },
     { date: "2026-11-25", dow: "Wed", type: "rest",    src: "plan",  title: "Rest or swim", detail: "" },
     { date: "2026-11-26", dow: "Thu", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "HR under 145." },
@@ -195,10 +205,10 @@ window.TRAINING_DATA = {
     { date: "2026-11-30", dow: "Mon", type: "rest",    src: "plan",  title: "Rest", detail: "" },
     { date: "2026-12-01", dow: "Tue", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "" },
     { date: "2026-12-02", dow: "Wed", type: "workout", src: "plan",  title: "8 km with 6 × 800 m @ 4:50–4:55", detail: "400 m jog between. Pace from your 5K result if it moved." },
-    { date: "2026-12-03", dow: "Thu", type: "rest",    src: "plan",  title: "Rest / strength", detail: "" },
+    { date: "2026-12-03", dow: "Thu", type: "rest",    src: "plan",  title: "Rest / strength", videos: ["legsCore12", "core10"], detail: "" },
     { date: "2026-12-04", dow: "Fri", type: "easy",    src: "plan",  title: "Easy 6 km", detail: "" },
     { date: "2026-12-05", dow: "Sat", type: "rest",    src: "plan",  title: "Rest", detail: "" },
-    { date: "2026-12-06", dow: "Sun", type: "long",    src: "plan",  title: "Long 18 km @ 6:25–6:40", detail: "First step towards 20–23 km by mid-December.", key: true }
+    { date: "2026-12-06", dow: "Sun", type: "long",    src: "plan",  title: "Long 18 km @ 6:25–6:40", videos: ["stretch7"], detail: "First step towards 20–23 km by mid-December.", key: true }
   ],
 
   paces: [

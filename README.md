@@ -19,6 +19,20 @@ What the page shows:
 | `data.js` | **All the numbers and the whole plan.** The only file that changes. |
 | `index.html` | Renders `data.js`. Layout and styling. Rarely needs touching. |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is. |
+| `manifest.webmanifest`, `apple-touch-icon.png`, `icon-*.png` | Home-screen app name and icon. |
+
+## Put it on your iPhone home screen
+
+It opens full screen, with its own icon, just like an app.
+
+1. Open **https://schneutzi-81.github.io/sub2-half-marathon/** in **Safari**. It has to be Safari (on iOS 16.4+ Chrome works too, via its Share button).
+2. Tap the **Share** button (the square with an arrow pointing up).
+3. Scroll down and tap **Add to Home Screen**.
+4. Keep the name **Sub-2** and tap **Add**.
+
+The icon on your home screen always loads the latest version from GitHub Pages, so nothing needs reinstalling after an update. Ticked-off sessions are stored on the phone itself.
+
+On Android: open the link in Chrome → ⋮ menu → **Add to Home screen**.
 
 ## Run it locally
 

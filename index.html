@@ -2,7 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sub-2">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16161a" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Sub-2:00 Half · Sub-4:00 Marathon</title>
 <style>
   :root {
@@ -235,6 +244,54 @@
   tr.up td { font-weight: 560; }
   tr.past td { color: var(--text-dim); }
   tr.primary td:first-child::after { content: " ★"; color: var(--accent); }
+
+  /* ---- videos ---- */
+  .vids { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  a.vid {
+    display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    font-size: 12.5px; font-weight: 550; color: var(--text); background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 99px; padding: 6px 11px 6px 8px; line-height: 1.2;
+  }
+  a.vid:hover { border-color: var(--t-race); }
+  a.vid .play { width: 18px; height: 18px; border-radius: 50%; background: #e62117; position: relative; flex-shrink: 0; }
+  a.vid .play::after { content: ""; position: absolute; left: 7px; top: 5px; border-left: 6px solid #fff; border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+  a.vid .min { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); font-weight: 400; }
+  .vid-list a.vid { width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 10px; margin-bottom: 8px; }
+
+  /* ---- mobile ---- */
+  @media (max-width: 600px) {
+    .wrap { padding: max(18px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); }
+    h1 { font-size: 26px; }
+    .sub { font-size: 14px; }
+    h2 { margin: 26px 0 10px; }
+    .countdown { flex-direction: column; gap: 4px; padding: 12px 14px; }
+    .countdown .n { font-size: 26px; }
+    .card { padding: 14px 15px; }
+    .stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat { padding: 11px 12px; }
+    .stat .v { font-size: 18px; }
+    .tips, .goals { grid-template-columns: 1fr; }
+    .next .what { font-size: 18px; }
+    .next-list .row .dow { width: 62px; }
+    .week-head { padding: 13px 14px; }
+    .day { padding: 11px 14px; gap: 10px; }
+    .day input[type=checkbox] { width: 20px; height: 20px; margin-top: 2px; }
+    .dow { width: auto; }
+    .day-line { gap: 6px; }
+    .src { display: none; }
+    .vol { gap: 3px; height: 110px; }
+    .vol .b em { font-size: 8.5px; }
+    .vol-x { gap: 3px; }
+    .vol-x span { font-size: 8px; }
+    .vol-x span:nth-child(even) { visibility: hidden; }
+    .vol .tl span { font-size: 9px; }
+    table { min-width: 0; font-size: 13px; }
+    th, td { padding: 8px 6px; }
+    .m-hide { display: none; }
+    a.vid { padding: 8px 12px 8px 9px; font-size: 13px; }
+    footer { flex-direction: column; }
+    button { padding: 11px 16px; font-size: 14px; }
+  }
 </style>
 </head>
 <body>
@@ -286,6 +343,9 @@
   </div>
   <div id="weeks"></div>
 
+  <h2>Strength &amp; mobility videos</h2>
+  <div class="card" id="videos"></div>
+
   <h2>Pace targets</h2>
   <div class="card scroll">
     <table>
@@ -297,7 +357,7 @@
   <h2>Races in Garmin</h2>
   <div class="card scroll">
     <table>
-      <thead><tr><th>Date</th><th>Event</th><th>km</th><th>Result / goal</th><th>Note</th></tr></thead>
+      <thead><tr><th>Date</th><th>Event</th><th>km</th><th>Result / goal</th><th class="m-hide">Note</th></tr></thead>
       <tbody id="events"></tbody>
     </table>
   </div>
@@ -305,7 +365,7 @@
   <h2>Recent runs</h2>
   <div class="card scroll">
     <table>
-      <thead><tr><th>Date</th><th>Run</th><th>km</th><th>Time</th><th>Pace</th><th>HR</th><th>Cad</th></tr></thead>
+      <thead><tr><th>Date</th><th>Run</th><th>km</th><th class="m-hide">Time</th><th>Pace</th><th>HR</th><th class="m-hide">Cad</th></tr></thead>
       <tbody id="runs"></tbody>
     </table>
   </div>
@@ -385,6 +445,20 @@
   }
   updateCountdown(); setInterval(updateCountdown, 1000);
 
+  /* ---------- videos ---------- */
+  function vids(keys) {
+    if (!keys || !keys.length || !D.videos) return '';
+    return '<div class="vids">' + keys.map(function (k) {
+      var v = D.videos[k]; if (!v) return '';
+      return '<a class="vid" href="' + esc(v.url) + '" target="_blank" rel="noopener"><span class="play"></span>' + esc(v.title) +
+             ' <span class="min">' + esc(v.min) + ' min</span></a>';
+    }).join('') + '</div>';
+  }
+  if (D.videos) {
+    $('videos').innerHTML = '<div class="vid-list">' + Object.keys(D.videos).map(function (k) { return vids([k]); }).join('') + '</div>' +
+      '<p style="margin:4px 0 0;font-size:12.5px;color:var(--text-dim)">Opens YouTube. Two or three short sessions a week are enough. Not on the day before a long run or race.</p>';
+  }
+
   /* ---------- tips: three a day, rotating by local date ---------- */
   if (D.tips && D.tips.length) {
     var CAT = { run: 'Running', recovery: 'Recovery', strength: 'Strength', fuel: 'Fuel', mobility: 'Mobility', sleep: 'Sleep', mind: 'Habit' };
@@ -393,7 +467,7 @@
     /* stride 7 across the list so the three tips come from different categories */
     for (var t = 0; t < Math.min(3, n); t++) pick.push(D.tips[(dayNo * 3 + t * 7) % n]);
     $('tips').innerHTML = pick.map(function (x) {
-      return '<div class="tip"><div class="cat">' + esc(CAT[x.cat] || x.cat) + '</div><h4>' + esc(x.title) + '</h4><p>' + esc(x.body) + '</p></div>';
+      return '<div class="tip"><div class="cat">' + esc(CAT[x.cat] || x.cat) + '</div><h4>' + esc(x.title) + '</h4><p>' + esc(x.body) + '</p>' + vids(x.videos) + '</div>';
     }).join('');
   }
 
@@ -415,7 +489,7 @@
     if (!pending.length && lightToday) html += '<div class="phase-now" style="margin:0 0 10px">Today: <b>' + esc(lightToday.title) + '</b> — ' + esc(lightToday.detail) + '</div>';
     html += '<div class="when">' + esc(headline.when) + '</div>' +
             '<div class="what">' + esc(headline.d.title) + '</div>' +
-            '<p class="why">' + esc(headline.d.detail) + '</p>';
+            '<p class="why">' + esc(headline.d.detail) + '</p>' + vids(headline.d.videos);
     var rest = sessions.filter(function (d) { return d.date > headline.d.date; }).slice(0, 6);
     if (rest.length) {
       html += '<div class="next-list">' + rest.map(function (d) {
@@ -525,7 +599,7 @@
             '<span class="day-title">' + esc(d.title) + '</span>' +
             '<span class="pill ' + d.type + '">' + esc(d.type) + '</span>' +
             '<span class="src">' + (d.src === 'coach' ? 'Garmin Coach' : d.src === 'adj' ? 'adjusted' : 'suggested') + '</span>' +
-          '</div>' + (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') + '</div></label>';
+          '</div>' + (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') + vids(d.videos) + '</div></label>';
       }).join('');
       return '<section class="week"><div class="week-head"><div class="top"><h3>Week of ' + fmtDate(m) + '</h3>' +
         '<span class="meta">≈ ' + Math.round(km) + ' km planned</span></div></div>' + rows + '</section>';
@@ -544,6 +618,7 @@
     $('prog-pct').textContent = pct + '%';
   }
   render();
+  $('weeks').addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a.vid')) e.stopPropagation(); }, true);
   $('reset').addEventListener('click', function () { done = {}; save(done); render(); });
 
   /* ---------- tables ---------- */
@@ -558,12 +633,12 @@
     var res = isUp ? 'goal ' + (e.goal || '—') + (e.garminPred ? ' · Garmin ' + e.garminPred : '') : (e.result || '—');
     var note = isUp ? (function (n) { return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; })(daysBetween(todayISO, e.date)) + (e.start ? ' · ' + e.start : '') : (e.note || '');
     return '<tr class="' + (isUp ? 'up' : 'past') + (e.primary ? ' primary' : '') + '"><td class="num">' + esc(e.date) + '</td><td>' + esc(e.name) +
-      '</td><td class="num">' + esc(e.km) + '</td><td class="num">' + esc(res) + '</td><td>' + esc(note) + '</td></tr>';
+      '</td><td class="num">' + esc(e.km) + '</td><td class="num">' + esc(res) + '</td><td class="m-hide">' + esc(note) + '</td></tr>';
   }).join('');
 
   $('runs').innerHTML = D.recentRuns.map(function (r) {
-    return '<tr><td class="num">' + esc(r.date) + '</td><td>' + esc(r.name) + '</td><td class="num">' + esc(r.km) + '</td><td class="num">' + esc(r.time) +
-      '</td><td class="num">' + esc(r.pace) + '</td><td class="num">' + esc(r.hr) + '</td><td class="num">' + esc(r.cad) + '</td></tr>';
+    return '<tr><td class="num">' + esc(r.date) + '</td><td>' + esc(r.name) + '</td><td class="num">' + esc(r.km) + '</td><td class="num m-hide">' + esc(r.time) +
+      '</td><td class="num">' + esc(r.pace) + '</td><td class="num">' + esc(r.hr) + '</td><td class="num m-hide">' + esc(r.cad) + '</td></tr>';
   }).join('');
 
   $('keys').innerHTML = D.keys.map(function (k) { return '<div class="key-item"><h4>' + esc(k.title) + '</h4><p>' + esc(k.body) + '</p></div>'; }).join('');
