@@ -1,187 +1,202 @@
 /* ============================================================
-   sub2-half-marathon — LIVE DATA
+   sub2-half-marathon — LIVE DATA  (schema v2)
    ------------------------------------------------------------
    This is the ONLY file that needs updating.
    Ask Claude to re-pull Garmin and rewrite it; index.html
-   renders whatever is in here. Do not edit index.html to
-   change numbers.
+   renders whatever is in here and works out "what's next"
+   from today's date. Do not edit index.html to change numbers.
+
+   Times are in seconds wherever the page does maths with them.
    ============================================================ */
 
 window.TRAINING_DATA = {
 
   meta: {
-    /* lastUpdated = when this file was last pulled from Garmin.
-       watchSynced = when the watch itself last reached Garmin Connect.
-       If watchSynced is hours old, the numbers below are that stale. */
-    lastUpdated: "2026-09-06 18:35 CEST",
-    source: "Garmin Connect (Forerunner 970 / HRM 600 / Edge Explore 2) · watch data ends 2026-09-06 18:20 CEST"
+    lastUpdated: "2026-11-14 18:40 CET",
+    source: "Garmin Connect (Forerunner 970) · watch last synced 2026-11-14 ~18:10 CET"
   },
 
-  race: {
-    name: "Half Marathon",
-    date: "2026-09-20",
-    /* Gun time as an absolute instant. The explicit +02:00 offset matters:
-       it keeps the countdown correct from any timezone, and Sep 20 is still
-       CEST (DST ends Oct 25). If your wave goes off later than the gun,
-       put the wave time here instead. */
-    startsAt: "2026-09-20T09:00:00+02:00",
-    startLabel: "09:00 CEST",
-    distanceKm: 21.0975,
-    goalLabel: "Sub-2:00 is off. So is the PR.",
-    targetLabel: "2:12 — finish the thing strong",
-    targetPace: "6:15",
-    cutoffPace: "5:55"
+  /* --- The two goals. pred = Garmin's current race prediction. --- */
+  goals: [
+    { id: "hm", label: "Sub-2:00 Half Marathon", distanceKm: 21.0975, goalSec: 7199,  predSec: 7418,  prSec: 7491,  prNote: "Hammer Lauf Hamburg · 19 Apr 2026",
+      when: "Spring 2027 — a flat half in April (Hammer Lauf Hamburg ran on 19 Apr this year)" },
+    { id: "m",  label: "Sub-4:00 Marathon",       distanceKm: 42.195,  goalSec: 14399, predSec: 16849, prSec: 15889, prNote: "Mitteldeutscher Marathon · 12 Oct 2025",
+      when: "Autumn 2027 — after the sub-2 half has proven the speed" }
+  ],
+
+  /* --- Garmin race predictions (weekly samples). [date, 5K, 10K, HM, M] in seconds --- */
+  predictions: {
+    current: { date: "2026-11-14", k5: 1502, k10: 3248, hm: 7418, m: 16849 },
+    history: [
+      ["2026-08-01", 1494, 3212, 7323, 16290],
+      ["2026-08-08", 1502, 3222, 7349, 16328],
+      ["2026-08-15", 1512, 3237, 7392, 16387],
+      ["2026-08-22", 1484, 3209, 7329, 16280],
+      ["2026-08-29", 1477, 3199, 7261, 16095],
+      ["2026-09-05", 1514, 3244, 7355, 16368],
+      ["2026-09-12", 1524, 3244, 7386, 16480],
+      ["2026-09-19", 1539, 3246, 7436, 16644],
+      ["2026-09-26", 1556, 3252, 7511, 16867],
+      ["2026-10-03", 1534, 3252, 7477, 16822],
+      ["2026-10-10", 1509, 3251, 7439, 16690],
+      ["2026-10-17", 1493, 3248, 7412, 16680],
+      ["2026-10-24", 1494, 3250, 7419, 16692],
+      ["2026-10-31", 1482, 3221, 7348, 16664],
+      ["2026-11-07", 1489, 3230, 7367, 16720],
+      ["2026-11-14", 1502, 3248, 7418, 16849]
+    ],
+    note: "The half has held at 2:02–2:05 for three months. The marathon has drifted 4:31 → 4:41 since August: Garmin can see the speed, but not the long runs."
   },
 
-  /* --- Snapshot of where fitness actually is right now --- */
+  /* --- Snapshot from Garmin today --- */
   status: {
-    garminPrediction: "2:02:39",
-    predictionNote: "Fourth pull running in the wrong direction: 2:00:42 → 2:00:47 → 2:00:51 → 2:02:39",
-    onTrack: false,
-    readinessScore: 25,
-    readinessLevel: "LOW · the recovery clock this time, not missing sleep",
-    recoveryHours: 49.6,
-    restingHR: 58,
-    rhr7Day: "55 — sleep is being tracked again",
-    lastWeekKm: 10.3,
-    acuteLoad: 155,
-    headline: "Two runs in the last thirteen days. Today's 10.3 km was the whole of the last fortnight's training, and it went at 6:41 /km for HR 141 — nine seconds slower than the same distance on Aug 17, at ten beats higher.",
-    warning: "The plan and the log have come apart. Between Aug 26 and today you ran exactly once: 5.8 km on Aug 25. The 13 km, the 4 × 1.5 km threshold session and the 17 km dress rehearsal all went unrun, and by Sep 4 your acute load had decayed to 1 — the block is effectively gone. Sub-2:00 was already off; 2:03:30 is off now too. Sep 20 is still very much worth running, but as a controlled 2:12, not a PR attempt. The two weeks below are rebuilt around that."
+    trainingStatus: "Maintaining",
+    readinessScore: 69,
+    readinessLevel: "Moderate · good sleep history",
+    recoveryHours: 7.8,
+    hrvStatus: "Balanced · 7-day avg 42 ms",
+    restingHR: 57,
+    rhr7Day: 58,
+    vo2max: 45.1,
+    acuteLoad: 404,
+    chronicLoad: 358,
+    acwr: "1.1 · optimal",
+    loadBalance: "Anaerobic shortage — high-aerobic over target"
   },
 
-  /* --- Fixed reference points from your Garmin history --- */
   benchmarks: [
-    { label: "Half Marathon PR",   value: "2:04:51",  note: "5:55 /km — not on the table this time" },
-    { label: "10K PR",             value: "54:07",    note: "5:25 /km" },
-    { label: "5K PR",              value: "25:43",    note: "5:09 /km" },
-    { label: "Latest run",         value: "10.3 km",  note: "Sep 6 · 6:41 /km · HR 141 · TE 3.8 · cadence 150" },
-    { label: "Longest run (8 wk)", value: "11.0 km",  note: "Aug 12 · 25 days ago · the race is 21.1 km" },
-    { label: "Last 14 days",       value: "16.1 km",  note: "two runs · the plan called for ~66" }
+    { label: "Half PR",     value: "2:04:51", note: "19 Apr 2026 · 5:55 /km" },
+    { label: "Marathon PR", value: "4:24:49", note: "12 Oct 2025 · 6:16 /km" },
+    { label: "10K PR",      value: "54:07",   note: "7 Sep 2025 · 5:25 /km" },
+    { label: "5K PR",       value: "25:44",   note: "23 Sep 2023 · 5:09 /km" },
+    { label: "Last half",   value: "2:11:13", note: "hella HM · 25 Oct 2026 · HR 153" },
+    { label: "Longest run", value: "21.4 km", note: "since the April marathon" }
   ],
 
-  /* --- Pace targets the whole plan is built on --- */
+  /* --- Running km per Mon–Sun week (last one is partial) --- */
+  weeklyKm: [
+    ["Aug 17", 34.5], ["Aug 24", 5.8], ["Aug 31", 10.3], ["Sep 7", 0], ["Sep 14", 2.3],
+    ["Sep 21", 0], ["Sep 28", 12.3], ["Oct 5", 13.8], ["Oct 12", 19.7], ["Oct 19", 36.6],
+    ["Oct 26", 15.9], ["Nov 2", 19.4], ["Nov 9", 16.3]
+  ],
+  weeklyTargetKm: { hm: 40, m: 55 },
+
+  recentRuns: [
+    { date: "2026-11-12", name: "Base",          km: 7.26,  time: "43:02",   pace: "5:56", hr: 146, cad: 158 },
+    { date: "2026-11-09", name: "Run",           km: 9.02,  time: "54:28",   pace: "6:02", hr: 152, cad: 159 },
+    { date: "2026-11-07", name: "Long Run",      km: 12.25, time: "1:14:59", pace: "6:07", hr: 148, cad: 157 },
+    { date: "2026-11-05", name: "Threshold",     km: 5.78,  time: "35:04",   pace: "6:04", hr: 147, cad: 156 },
+    { date: "2026-10-31", name: "Base",          km: 7.41,  time: "50:42",   pace: "6:51", hr: 135, cad: 154 },
+    { date: "2026-10-29", name: "Run (SF)",      km: 8.46,  time: "1:03:18", pace: "7:29", hr: 132, cad: 141 },
+    { date: "2026-10-25", name: "hella Half",    km: 21.39, time: "2:11:13", pace: "6:08", hr: 153, cad: 160 },
+    { date: "2026-10-19", name: "Base",          km: 10.69, time: "1:12:30", pace: "6:47", hr: 133, cad: 150 }
+  ],
+
+  /* --- Events from the Garmin calendar. result only where an activity is linked. --- */
+  events: [
+    { date: "2025-06-29", name: "hella Hamburg Halbmarathon",          km: 21.1,  result: "2:17:13", note: "watch 21.37 km" },
+    { date: "2025-09-07", name: "BARMER Alsterlauf Hamburg",           km: 10,    result: "55:05" },
+    { date: "2025-10-03", name: "Köhlbrandbrückenlauf",                km: 12.3,  result: "1:11:45" },
+    { date: "2025-10-12", name: "Mitteldeutscher Marathon (Halle)",    km: 42.2,  result: "4:24:49", note: "marathon PR" },
+    { date: "2025-11-09", name: "Bramfelder Winterlaufserie I",        km: 23.3,  result: "2:29:33" },
+    { date: "2025-12-07", name: "St. Pauli Xmas Run",                  km: 5,     result: "35:06",   note: "fun run" },
+    { date: "2025-12-14", name: "Bramfelder Winterlaufserie II",       km: 23.3,  result: "2:20:47" },
+    { date: "2026-02-15", name: "Bramfelder Winterlaufserie IV",       km: 18.6,  result: "1:40:14", note: "15.0 km recorded" },
+    { date: "2026-03-15", name: "Bramfelder Winterlaufserie V",        km: 23.3,  result: "2:02:18", note: "19.0 km recorded" },
+    { date: "2026-04-19", name: "Hammer Lauf Hamburg (half)",          km: 21.1,  result: "2:06:19", note: "half PR 2:04:51 inside it" },
+    { date: "2026-04-26", name: "Haspa Marathon Hamburg",              km: 42.2,  result: "4:33:04" },
+    { date: "2026-09-06", name: "Alsterlauf",                          km: 10,    result: null,      note: "ran 10.3 km easy instead" },
+    { date: "2026-09-20", name: "PSD Bank Halbmarathon",               km: 21.1,  result: null,      note: "not run" },
+    { date: "2026-10-25", name: "hella Hamburg Halbmarathon",          km: 21.1,  result: "2:11:13", note: "goal was 2:05" },
+    { date: "2026-11-15", name: "Bramfelder Winterlaufserie I",        km: 23.3,  start: "09:30", goal: "2:29:00", upcoming: true },
+    { date: "2026-11-29", name: "St. Pauli Xmas Run",                  km: 5,     start: "11:30", goal: "sub-25:00", upcoming: true },
+    { date: "2027-01-17", name: "Bramfelder Winterlaufserie III",      km: 23.3,  start: "09:30", goal: "2:10:00", garminPred: "2:18:58", primary: true, upcoming: true }
+  ],
+
+  /* --- Roadmap. The page highlights the phase containing today. --- */
+  roadmap: [
+    { from: "2026-11-01", to: "2027-01-17", title: "1 · Rebuild the base",
+      target: "Bramfeld III on 17 Jan · Garmin Coach 23.3 km plan",
+      bullets: [
+        "Follow the Garmin Coach plan: Base until 22 Nov, Build 23 Nov–20 Dec, Peak to 5 Jan, then taper.",
+        "Volume: 20 → 35–40 km a week. The rule that matters most: no week without three runs.",
+        "Long run up to 20–23 km by mid-December.",
+        "17 Jan: Garmin predicts 2:18:58. Your 2:10 goal is 5:35 /km, faster than sub-2 half pace. Race it at 5:55–6:00 /km."
+      ] },
+    { from: "2027-01-18", to: "2027-04-30", title: "2 · Sub-2:00 half block",
+      target: "A flat spring half in April · 5:38 /km",
+      bullets: [
+        "40–45 km a week, four runs: one threshold session, one interval session, one long run, one easy run.",
+        "Threshold 3 × 2 km at 5:15–5:20. Intervals 6 × 800 m at 4:50.",
+        "Long runs 18–22 km, with the last 5 km at 5:40.",
+        "Checkpoint in March: 10K under 53:30, or Garmin's half prediction under 2:00.",
+        "Add the race to the Garmin calendar so the Coach plan builds towards it."
+      ] },
+    { from: "2027-05-01", to: "2027-10-31", title: "3 · Sub-4:00 marathon block",
+      target: "An autumn marathon · 5:40 /km",
+      bullets: [
+        "Precondition: half at 1:57 or better. Sub-4 is roughly a 1:55 half plus real long runs.",
+        "18-week block at 45 → 60 km a week. Long runs up to 30–32 km, three of them at 28 km or more.",
+        "Marathon-pace blocks inside long runs: 2 × 6 km at 5:40.",
+        "Practise fuelling on every run over 90 min: 60 g of carbs an hour, from km 5.",
+        "Your 2026 Hamburg was 4:33 off about 25 km a week. Volume is the whole difference."
+      ] }
+  ],
+
+  /* --- Day-by-day. type: rest | easy | workout | long | race | cross
+     src: "coach" = from the Garmin Coach plan, "adj" = changed by Claude,
+     "plan" = Claude's suggestion beyond what Garmin has scheduled. --- */
+  schedule: [
+    { date: "2026-11-14", dow: "Sat", type: "cross",   src: "adj",   title: "Swim done, no run", detail: "Garmin Coach had a 15 km long run today. Skip it: tomorrow's race is the long run this week." },
+    { date: "2026-11-15", dow: "Sun", type: "race",    src: "adj",   title: "Bramfeld I · 23.3 km · 09:30", detail: "Run it as a long run at 6:20–6:30 /km, which matches your 2:29 goal (6:24). It's longer than anything since April, so start at 6:35 for the first 3 km. Take 2 gels (km 8 and 16). Last year you ran 2:29:33 here: beat it by staying even.", key: true },
+    { date: "2026-11-16", dow: "Mon", type: "cross",   src: "coach", title: "Strength: Base Builder 1 (60 min)", detail: "From Garmin Coach. Keep it light the day after 23 km; drop the leg work if your calves are sore." },
+    { date: "2026-11-17", dow: "Tue", type: "workout", src: "adj",   title: "Threshold · 6.3 km @ 5:05 (Garmin Coach)", detail: "If morning readiness is under 50, move it to Wed. These are the anaerobic and threshold minutes Garmin says you're missing." },
+    { date: "2026-11-18", dow: "Wed", type: "rest",    src: "coach", title: "Rest", detail: "" },
+    { date: "2026-11-19", dow: "Thu", type: "easy",    src: "coach", title: "Base 8.7 km @ 6:10 + Core Circuit 2", detail: "Keep HR under 145. Your last two 'base' runs were at 146 and 152, which is why the high-aerobic load is over target." },
+    { date: "2026-11-20", dow: "Fri", type: "rest",    src: "coach", title: "Rest", detail: "" },
+    { date: "2026-11-21", dow: "Sat", type: "easy",    src: "plan",  title: "Easy 5 km + 4 strides", detail: "Follow the Garmin Coach workout if it schedules something different." },
+    { date: "2026-11-22", dow: "Sun", type: "long",    src: "plan",  title: "Long 14 km @ 6:30–6:45", detail: "End of the Base phase. Fully conversational.", key: true },
+
+    { date: "2026-11-23", dow: "Mon", type: "rest",    src: "plan",  title: "Rest / strength", detail: "Build phase starts." },
+    { date: "2026-11-24", dow: "Tue", type: "workout", src: "plan",  title: "9 km with 5 × 1 km @ 5:10–5:15", detail: "2 min jog between. 2 km warm-up and cool-down. ~9 km total." },
+    { date: "2026-11-25", dow: "Wed", type: "rest",    src: "plan",  title: "Rest or swim", detail: "" },
+    { date: "2026-11-26", dow: "Thu", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "HR under 145." },
+    { date: "2026-11-27", dow: "Fri", type: "rest",    src: "plan",  title: "Rest", detail: "" },
+    { date: "2026-11-28", dow: "Sat", type: "easy",    src: "plan",  title: "Shakeout 4 km + 3 strides", detail: "" },
+    { date: "2026-11-29", dow: "Sun", type: "race",    src: "plan",  title: "St. Pauli Xmas Run 5K · 11:30", detail: "Race this one, unlike last year's fun run. Garmin predicts 25:02 and your PR is 25:44 from 2023. Start at 5:05 and finish strong. It's an honest speed check, and a sub-25 means sub-2 half speed is already there. Jog 4–5 km afterwards.", key: true },
+
+    { date: "2026-11-30", dow: "Mon", type: "rest",    src: "plan",  title: "Rest", detail: "" },
+    { date: "2026-12-01", dow: "Tue", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "" },
+    { date: "2026-12-02", dow: "Wed", type: "workout", src: "plan",  title: "8 km with 6 × 800 m @ 4:50–4:55", detail: "400 m jog between. Pace from your 5K result if it moved." },
+    { date: "2026-12-03", dow: "Thu", type: "rest",    src: "plan",  title: "Rest / strength", detail: "" },
+    { date: "2026-12-04", dow: "Fri", type: "easy",    src: "plan",  title: "Easy 6 km", detail: "" },
+    { date: "2026-12-05", dow: "Sat", type: "rest",    src: "plan",  title: "Rest", detail: "" },
+    { date: "2026-12-06", dow: "Sun", type: "long",    src: "plan",  title: "Long 18 km @ 6:25–6:40", detail: "First step towards 20–23 km by mid-December.", key: true }
+  ],
+
   paces: [
-    { zone: "Easy",      pace: "6:45–7:05", cue: "HR under 140. Where almost everything now lives.",          tone: "easy" },
-    { zone: "Long run",  pace: "6:40–7:00", cue: "Conversational start to finish. No fast finishes.",         tone: "easy" },
-    { zone: "Race pace", pace: "6:15",      cue: "The new goal. Should feel almost lazy at km 5.",             tone: "goal" },
-    { zone: "Rhythm",    pace: "6:00–6:05", cue: "Short touches only. Reminds the legs what turnover is.",     tone: "goal" },
-    { zone: "PR pace",   pace: "5:55",      cue: "What a PR would need. Not available off 16 km a fortnight.", tone: "hard" },
-    { zone: "Strides",   pace: "4:45–5:00", cue: "20 seconds. Relaxed and fast, not a sprint.",                tone: "hard" }
+    { zone: "Easy / base",         pace: "6:15–6:50", cue: "HR under ~145. Most of the week lives here.",              tone: "easy" },
+    { zone: "Long run",            pace: "6:20–6:45", cue: "Conversational. Fuel from 75 min on.",                      tone: "easy" },
+    { zone: "Marathon goal",       pace: "5:40",      cue: "Sub-4:00 needs 5:41. Practise it in long-run blocks from May.", tone: "goal" },
+    { zone: "Half goal",           pace: "5:38",      cue: "Sub-2:00 needs 5:41. The last 5 km of long runs from Feb.",     tone: "goal" },
+    { zone: "Threshold",           pace: "5:05–5:20", cue: "Garmin Coach prescribes 5:05. Comfortably hard, 20–30 min total.", tone: "hard" },
+    { zone: "Intervals",           pace: "4:50–4:55", cue: "800 m–1 km reps. The anaerobic work Garmin says is short.",   tone: "hard" },
+    { zone: "Strides",             pace: "4:30–4:45", cue: "20 s, relaxed and fast.",                                    tone: "hard" }
   ],
 
-  /* --- The plan. type: rest | easy | workout | long | race --- */
-  weeks: [
-    {
-      id: "w1",
-      label: "Week 1 — Reset (as run: 5.8 km)",
-      range: "Aug 24 – Aug 30",
-      volumeKm: 6,
-      focus: "Planned 31 km. One run happened. This is where the block came off the rails.",
-      days: [
-        { date: "2026-08-24", dow: "Mon", type: "rest", title: "OFF",                 detail: "Done — cardio + two commute rides." },
-        { date: "2026-08-25", dow: "Tue", type: "easy", title: "Easy 5 km",           detail: "Done — 5.8 km @ 6:38 /km, HR 136, cadence 153. Still the best-executed easy run in the log. Also the last run for eleven days." },
-        { date: "2026-08-26", dow: "Wed", type: "rest", title: "Rest / easy cross",   detail: "Done." },
-        { date: "2026-08-27", dow: "Thu", type: "easy", title: "Easy 7 km",           detail: "NOT RUN." },
-        { date: "2026-08-28", dow: "Fri", type: "rest", title: "Rest",                detail: "" },
-        { date: "2026-08-29", dow: "Sat", type: "easy", title: "Easy 5 km + strides", detail: "NOT RUN." },
-        { date: "2026-08-30", dow: "Sun", type: "long", title: "Long 13 km",          detail: "NOT RUN. This was the first real endurance test of the block, and everything downstream follows from it not happening." }
-      ]
-    },
-    {
-      id: "w2",
-      label: "Week 2 — Keystone (as run: 10.3 km)",
-      range: "Aug 31 – Sep 6",
-      volumeKm: 10,
-      focus: "Planned 35 km with a 17 km dress rehearsal. You got today's 10.3 km — and acute load had already fallen to 1 by Thursday.",
-      days: [
-        { date: "2026-08-31", dow: "Mon", type: "rest",    title: "OFF",                 detail: "Done — 0.4 km commute roll, HR 86." },
-        { date: "2026-09-01", dow: "Tue", type: "easy",    title: "Easy 5 km",           detail: "NOT RUN." },
-        { date: "2026-09-02", dow: "Wed", type: "workout", title: "4 × 1.5 km @ 5:30",   detail: "NOT RUN. Your last threshold session of any kind was Jul 14." },
-        { date: "2026-09-03", dow: "Thu", type: "rest",    title: "Rest / easy cross",   detail: "Done. Readiness read 74 on an acute load of 1 — a fully rested body carrying no training stimulus at all." },
-        { date: "2026-09-04", dow: "Fri", type: "easy",    title: "Easy 4 km + strides", detail: "NOT RUN." },
-        { date: "2026-09-05", dow: "Sat", type: "rest",    title: "Rest",                detail: "Done." },
-        { date: "2026-09-06", dow: "Sun", type: "long",    title: "Long 17 km — was the dress rehearsal", detail: "Run as 10.3 km @ 6:41 /km, HR 141, TE 3.8, load 122. Honest and sensible after eleven days off — but 6.7 km short, with no goal-pace work in it. It answered the question anyway: 5:50 /km over distance is not there.", key: true }
-      ]
-    },
-    {
-      id: "w3",
-      label: "Week 3 — Rebuild",
-      range: "Sep 7 – Sep 13",
-      volumeKm: 27,
-      focus: "Get frequency back and put one honest long run in the legs. None of this is about getting fitter — it is about not arriving cold.",
-      days: [
-        { date: "2026-09-07", dow: "Mon", type: "rest",    title: "OFF",                     detail: "The recovery clock reads 49.6 h from this morning. It does not clear until Wednesday — do not run through it." },
-        { date: "2026-09-08", dow: "Tue", type: "easy",    title: "Easy 5 km",               detail: "6:45–7:05 /km, HR under 140. Purely about touching the ground again. · Form: metronome at 155 for 5 min — today's cadence was 150, so start there, not at 165." },
-        { date: "2026-09-09", dow: "Wed", type: "rest",    title: "Rest / easy cross",       detail: "Commute rides only. Nothing that lifts your breathing." },
-        { date: "2026-09-10", dow: "Thu", type: "workout", title: "Easy 6 km w/ 3 × 1 km @ 6:05", detail: "90s easy jog between reps. Rhythm work, not threshold — 6:05 should feel firm and repeatable, never strained. If rep 3 turns into a fight, that is your answer: race pace is 6:20, not 6:15. · Form: find the pace with quicker turnover, not a longer reach.", key: true },
-        { date: "2026-09-11", dow: "Fri", type: "rest",    title: "Rest",                    detail: "" },
-        { date: "2026-09-12", dow: "Sat", type: "easy",    title: "Easy 3 km + strides",     detail: "4 × 20s strides. Legs open, nothing more — Sunday is the session that matters." },
-        { date: "2026-09-13", dow: "Sun", type: "long",    title: "Long 13 km",              detail: "6:40–7:00 /km, all of it easy, no fast finish. Your longest run since Aug 12, and only 2 km past it — that is deliberate. Seven days out you are banking confidence and one last aerobic touch, not fitness. If anything twinges before km 9, stop at 10 and lose nothing. · Form: checklist at km 5 and km 10 — shoulders down, lean from the ankles, hands relaxed, turnover quick.", key: true }
-      ]
-    },
-    {
-      id: "w4",
-      label: "Week 4 — Taper & Race",
-      range: "Sep 14 – Sep 20",
-      volumeKm: 13,
-      focus: "Very little running. Arrive rested, and arrive unsurprised by 6:15 /km.",
-      days: [
-        { date: "2026-09-14", dow: "Mon", type: "rest",    title: "OFF",                     detail: "" },
-        { date: "2026-09-15", dow: "Tue", type: "easy",    title: "Easy 5 km + strides",     detail: "4 × 20s strides. · Form: metronome at 158 for 5 min — last cadence session of the block." },
-        { date: "2026-09-16", dow: "Wed", type: "rest",    title: "Rest / easy cross",       detail: "" },
-        { date: "2026-09-17", dow: "Thu", type: "workout", title: "Easy 5 km w/ 2 km @ 6:15", detail: "The only goal-pace touch of race week. Two kilometres, exactly at 6:15, then stop while it still feels good. You want that pace to feel boring on Sunday. · Form: final rehearsal of race posture — tall, shoulders low, elbows swinging cheek to cheek." },
-        { date: "2026-09-18", dow: "Fri", type: "rest",    title: "Rest",                    detail: "" },
-        { date: "2026-09-19", dow: "Sat", type: "rest",    title: "Shakeout",                detail: "3 km very easy plus 2 strides, or nothing at all. Both are fine." },
-        { date: "2026-09-20", dow: "Sun", type: "race",    title: "RACE — Half Marathon",    detail: "09:00 gun. Target 2:12 off 6:15 /km. You will feel absurdly comfortable through km 8 — that is the plan working, not a reason to speed up. · Form: run the checklist at km 5, 10, 15 and 18 — shoulders down, lean from the ankles, hands relaxed, cadence quick.", key: true }
-      ]
-    }
-  ],
-
-  /* --- Race day execution --- */
-  racePlan: {
-    projected: "2:11:40",
-    splits: [
-      { seg: "km 1–5",     pace: "6:25", elapsed: "32:05",   cue: "Slower than your easy runs. Everyone around you will pull away. Let them." },
-      { seg: "km 6–15",    pace: "6:15", elapsed: "1:34:35", cue: "Settle in and stop doing maths. This is the pace you rehearsed on Sep 17." },
-      { seg: "km 16–21.1", pace: "6:05", elapsed: "2:11:40", cue: "The part you have not trained for. If it is there, take it. If it is not, hold 6:20 and still finish running." }
-    ],
-    fueling: [
-      "Gel at ~40 min",
-      "Gel at ~75 min",
-      "Gel at ~105 min — on this build, the third one matters more than the first two",
-      "Water at every second station"
-    ],
-    warning: "Your longest run in eight weeks is 11.0 km and you have run 16 km total in the last fortnight. From km 16 onward you are in genuinely unknown territory — you have not been there since spring. Start at 6:25 and the last 5 km are a race. Start at 5:50 chasing the old target and you will be walking by km 15."
-  },
-
-  /* --- What actually decides this --- */
+  /* --- Read of the data --- */
   keys: [
-    {
-      title: "Say it plainly: sub-2:00 is gone, and so is the PR",
-      body: "Sub-2:00 needs 5:41 /km for 21.1 km. Your PR needs 5:55. In the last fourteen days you have run 16.1 km, all of it easy, none of it faster than 6:38 /km, and your longest run in eight weeks is 11.0 km set on Aug 12 — 25 days ago. Garmin still says 2:02:39, but that number is extrapolated from a 10 km time trial on Aug 23 and knows nothing about the endurance gap; it has now drifted the wrong way four pulls running, which is the model itself conceding ground. Racing 2:12 is not giving up. It is the only version of Sep 20 that ends with you running across the line."
-    },
-    {
-      title: "The missing fortnight is the whole story",
-      body: "Between Aug 26 and Sep 6 you ran once. The 13 km, the threshold session and the 17 km dress rehearsal all went unrun. By Sep 4 your acute load had decayed to 1 — Garmin was describing a completely rested athlete carrying no training stimulus whatsoever. Today's run put it back to 155, which is a start, but two weeks cannot rebuild what four weeks would have banked. Nothing in the plan above pretends otherwise."
-    },
-    {
-      title: "Today's run is the honest data point",
-      body: "10.3 km at 6:41 /km, HR 141, TE 3.8. Compare Aug 17: the same 10.3 km at 6:32 /km for HR 131. Nine seconds per kilometre slower at ten beats higher is straightforward detraining, and it is exactly what eleven days off buys you. The upside: it was a comfortable aerobic run with zero anaerobic cost and only a 15-point body battery hit. The engine is fine. The mileage underneath it is not."
-    },
-    {
-      title: "The Sep 13 long run is now the keystone — and it is only 13 km",
-      body: "Two weeks out, the temptation is to panic-run something long. Do not. Your recent maximum is 11.0 km, so 13 km is a sensible +2 km and still the longest run you will have done since Aug 12. Anything more, this close in, buys no fitness — the adaptation window has closed — and risks arriving at the start line injured or flat. The Sep 10 rhythm session is the other one that counts: three kilometres at 6:05 will tell you whether 6:15 is the right race pace or whether it should be 6:20."
-    },
-    {
-      title: "Sleep came back. That is a real win — bank it.",
-      body: "Last pull, three straight nights had no sleep data and readiness was measuring your watch rather than your body. Last night scored 81, your HRV weekly average is 46 and reporting VERY GOOD, and resting HR has come back down 62 → 58 with the 7-day average at 55. Today's readiness of 25 is honest this time: it is the 49.6 h recovery clock from this morning's run, not three missing inputs. Sleep history is still POOR at 38%, so keep wearing it — over the next fourteen days, sleep is a bigger lever on Sep 20 than any run you could add."
-    },
-    {
-      title: "Cadence is still the one form fault worth working",
-      body: "Today's run averaged 150 SPM with a 98.6 cm stride and 269 ms of ground contact — still the long, slow, over-reaching stride, still under the 160 floor against a 170–180 target. Vertical oscillation at 8.3 cm remains in the good band, so leave it alone. Two weeks is far too short to move cadence much, which is why the metronome targets step 155 → 158 rather than chasing 165. It will not change your finish time on Sep 20; it will make km 16 onward less punishing, which on this build is the entire game. Cues adapted from sportcoaching.com.au, 'Best Running Form for Long Distance Success'."
-    }
+    { title: "Speed isn't the problem, consistency is",
+      body: "Garmin's 10K prediction of 54:08 is, on standard equivalence tables, already close to a 2:00 half. The half prediction (2:03:38) is only 10 s/km off. But from 17 Aug to 8 Nov you averaged 14 km a week, with a month of almost nothing in September. The marathon prediction moving from 4:31 to 4:41 is that gap showing up." },
+    { title: "The last six weeks are genuinely better",
+      body: "You've run three times a week since October. Your aerobic pace has improved a lot: in September, 6:41 /km cost HR 141; this week, 5:56 cost HR 146. Cadence is up from 150 to 157–159. VO2 max is 45, HRV is balanced, and acute:chronic load is 1.1 (optimal). This is the base to build on. Don't lose it over Christmas." },
+    { title: "Easy runs are a bit too hard; hard runs are missing",
+      body: "Garmin flags an anaerobic shortage while your high-aerobic load is over target. Your 'base' runs at HR 146–152 sit in the in-between zone. Make easy runs truly easy and do the threshold and interval sessions properly. That's the fastest route to 5:38 /km." },
+    { title: "Long runs decide the marathon",
+      body: "Your longest run since the April marathon is the 21.4 km half on 25 Oct. Both of your marathons (4:24, 4:33) came from blocks without enough 28–32 km runs. The Bramfeld series (23.3 km every few weeks) is perfect long-run practice for winter. Use it that way and don't race every one." },
+    { title: "Order matters: half first, then the marathon",
+      body: "Sub-4 is 5:41 /km for 42 km. That's the same pace as a sub-2 half, held for twice the distance. Prove the speed in a spring half first, then spend the summer on volume. If you try both at once, you'll do neither well." }
   ],
 
-  /* --- Escape hatch if the body pushes back --- */
-  bailout: "If Thursday's 6:05 reps feel like a fight, race at 6:20 /km for a 2:14 and enjoy it. If the Sep 13 long run leaves you sore for more than two days, drop Sep 17's goal-pace touch and just jog race week. If you miss another week of running entirely, treat Sep 20 as a long training run at 6:40 /km, finish comfortably, and start a proper 12-week block on Sep 21 — you have a 2:04:51 half and a 4:24 marathon in your history, so this is rebuildable. The one outcome worth avoiding is going out at 5:50 on Sunday to honour a target the last month did not earn."
+  bailout: "If you miss a week, don't make it up. Just restart with the next scheduled session. If readiness is under 40 two mornings in a row, swap the hard session for easy running. If something hurts for more than three days, stop running and see a physio. A week off in November costs nothing; six weeks off in March costs the spring half."
 };

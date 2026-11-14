@@ -1,6 +1,16 @@
-# Sub-2:00 Half Marathon — 20 Sep 2026
+# Sub-2:00 Half · Sub-4:00 Marathon
 
-A single-page training plan tracker. Static, no build step, no dependencies.
+A single-page training tracker built from Garmin Connect data. Static, no build step, no dependencies.
+
+Live at **https://schneutzi-81.github.io/sub2-half-marathon/**
+
+What the page shows:
+
+- **What to do next.** Today's or the next session, worked out from today's date against the schedule in `data.js`.
+- **Both goals vs. Garmin.** The gap between Garmin's race prediction and each goal, with the trend since August.
+- **Status.** Training status, readiness, HRV, VO2 max, load balance and weekly volume against what each goal needs.
+- **Roadmap.** Rebuild (to Jan 2027) → sub-2 half (spring 2027) → sub-4 marathon (autumn 2027).
+- **Schedule and races.** Three weeks day by day (Garmin Coach sessions plus adjustments), and every race in the Garmin calendar with results.
 
 ## Files
 
@@ -53,12 +63,12 @@ sync between your phone and laptop. Rewriting `data.js` doesn't wipe them.
 
 ## Editing the plan by hand
 
-Everything lives in the `weeks` array in `data.js`. Each day:
+Day-by-day sessions live in the `schedule` array in `data.js` and are grouped into Mon–Sun weeks automatically. Each day:
 
 ```js
-{ date: "2026-09-02", dow: "Wed", type: "workout",
-  title: "5 × 1 km @ 5:15–5:20", detail: "400 m jog recovery.", key: true }
+{ date: "2026-11-24", dow: "Tue", type: "workout", src: "plan",
+  title: "9 km with 5 × 1 km @ 5:10–5:15", detail: "2 min jog between.", key: true }
 ```
 
-`type` is one of `rest` · `easy` · `workout` · `long` · `race` — it drives the colour of
+`type` is one of `rest` · `easy` · `workout` · `long` · `race` · `cross`. `src` is `coach` (Garmin Coach), `adj` (adjusted) or `plan` (suggested) — it drives the colour of
 the tag. `key: true` highlights a session as one that matters more than the others.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sub-2:00 Half Marathon</title>
+<title>Sub-2:00 Half · Sub-4:00 Marathon</title>
 <style>
   :root {
     --bg:        #f7f7f5;
@@ -188,13 +188,55 @@
   button.ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
 
   footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-dim); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  /* ---- v2 additions ---- */
+  .next { border-left: 3px solid var(--accent); }
+  .next .when { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .next .what { font-size: 20px; font-weight: 650; margin: 4px 0 4px; letter-spacing: -.01em; }
+  .next .why { font-size: 14px; color: var(--text-dim); margin: 0; }
+  .next-list { margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--border); }
+  .next-list .row { display: flex; gap: 10px; align-items: baseline; font-size: 14px; padding: 3px 0; flex-wrap: wrap; }
+  .next-list .row .dow { width: 70px; }
+  .phase-now { font-size: 13px; color: var(--text-dim); margin-top: 12px; }
+  .phase-now b { color: var(--text); }
+
+  .goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .goal h3 { margin: 0 0 10px; font-size: 16px; }
+  .goal .row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 3px 0; }
+  .goal .row span:last-child { font-family: var(--mono); }
+  .goal .gap { font-size: 24px; font-weight: 700; font-family: var(--mono); color: var(--t-race); margin: 6px 0 2px; }
+  .goal .gap.ok { color: var(--ok); }
+  .goal .small { font-size: 12.5px; color: var(--text-dim); margin-top: 8px; }
+  .goal svg { width: 100%; height: 70px; display: block; margin-top: 10px; }
+
+  .vol { position: relative; height: 130px; display: flex; align-items: flex-end; gap: 5px; margin-top: 18px; }
+  .vol .b { flex: 1; min-width: 0; position: relative; background: var(--t-easy); border-radius: 4px 4px 0 0; min-height: 2px; }
+  .vol .b.partial { opacity: .5; }
+  .vol .b em { position: absolute; bottom: 100%; left: 0; right: 0; text-align: center; font-style: normal; font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); margin-bottom: 2px; }
+  .vol-x { display: flex; gap: 5px; margin-top: 4px; }
+  .vol-x span { flex: 1; min-width: 0; text-align: center; font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); white-space: nowrap; overflow: hidden; }
+  .vol .tl { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--accent); font-family: var(--mono); font-size: 10px; color: var(--accent); z-index: 1; }
+  .vol .tl.m { border-color: var(--t-long); color: var(--t-long); }
+  .vol .tl span { position: absolute; left: 0; top: -15px; background: var(--surface); padding: 0 4px; }
+  .phase { border-left: 3px solid var(--border); padding: 4px 0 4px 14px; margin-bottom: 16px; }
+  .phase.now { border-color: var(--accent); }
+  .phase h4 { margin: 0; font-size: 15px; }
+  .phase .tgt { font-size: 13px; color: var(--accent); margin: 2px 0 6px; font-family: var(--mono); }
+  .phase .dates { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .phase ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--text-dim); }
+  .tag { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .07em; padding: 1px 6px; border-radius: 4px; background: var(--accent); color: #fff; margin-left: 6px; vertical-align: 2px; }
+  .src { font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; }
+  .pill.cross { color: var(--t-rest); }
+  tr.up td { font-weight: 560; }
+  tr.past td { color: var(--text-dim); }
+  tr.primary td:first-child::after { content: " ★"; color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <p class="eyebrow" id="eyebrow">Training Plan</p>
-    <h1 id="title">Sub-2:00 Half Marathon</h1>
+    <h1>Sub-2:00 Half · Sub-4:00 Marathon</h1>
     <p class="sub" id="subtitle"></p>
     <div class="countdown">
       <span class="n" id="cd-num">—</span>
@@ -202,24 +244,38 @@
     </div>
   </header>
 
-  <div id="banner"></div>
+  <h2>What to do next</h2>
+  <div class="card next" id="next"></div>
 
-  <h2>Where you stand</h2>
+  <h2>The goals vs. Garmin</h2>
+  <div class="goals" id="goals"></div>
+
+  <h2>Garmin race predictions</h2>
+  <div class="stats" id="preds"></div>
+  <p style="font-size:13px;color:var(--text-dim);margin:8px 2px 0" id="pred-note"></p>
+
+  <h2>Where you stand today</h2>
   <div class="stats" id="stats"></div>
+
+  <h2>Weekly running volume</h2>
+  <div class="card"><div class="vol" id="vol"></div><div class="vol-x" id="vol-x"></div>
+    <p style="font-size:12.5px;color:var(--text-dim);margin:10px 0 0">Dashed lines: the weekly volume each goal needs. The faded bar is the current week so far.</p>
+  </div>
 
   <h2>Benchmarks</h2>
   <div class="stats" id="benchmarks"></div>
 
-  <h2>Progress</h2>
+  <h2>Roadmap</h2>
+  <div class="card" id="roadmap"></div>
+
+  <h2>The next three weeks</h2>
   <div class="card">
     <div style="display:flex;justify-content:space-between;font-size:13.5px">
-      <span id="prog-label">—</span><span id="prog-pct" class="num" style="font-family:var(--mono);color:var(--text-dim)"></span>
+      <span id="prog-label">—</span><span id="prog-pct" style="font-family:var(--mono);color:var(--text-dim)"></span>
     </div>
     <div class="bar"><i id="prog-bar" style="width:0%"></i></div>
     <button class="ghost" id="reset">Reset all checkboxes</button>
   </div>
-
-  <h2>The plan</h2>
   <div id="weeks"></div>
 
   <h2>Pace targets</h2>
@@ -230,20 +286,23 @@
     </table>
   </div>
 
-  <h2>Race day</h2>
+  <h2>Races in Garmin</h2>
   <div class="card scroll">
     <table>
-      <thead><tr><th>Segment</th><th>Pace</th><th>Elapsed</th><th>Cue</th></tr></thead>
-      <tbody id="splits"></tbody>
+      <thead><tr><th>Date</th><th>Event</th><th>km</th><th>Result / goal</th><th>Note</th></tr></thead>
+      <tbody id="events"></tbody>
     </table>
   </div>
-  <div class="card">
-    <strong style="font-size:14px">Fuelling</strong>
-    <ul class="plain" id="fuel" style="margin-top:6px"></ul>
-    <p style="margin:12px 0 0;font-size:13.5px;color:var(--warn)" id="race-warn"></p>
+
+  <h2>Recent runs</h2>
+  <div class="card scroll">
+    <table>
+      <thead><tr><th>Date</th><th>Run</th><th>km</th><th>Time</th><th>Pace</th><th>HR</th><th>Cad</th></tr></thead>
+      <tbody id="runs"></tbody>
+    </table>
   </div>
 
-  <h2>What decides this</h2>
+  <h2>What the data says</h2>
   <div class="card" id="keys"></div>
 
   <h2>If the body pushes back</h2>
@@ -252,7 +311,7 @@
   <h2>Update this page</h2>
   <div class="card update">
     <p style="margin:0;font-size:13.5px;color:var(--text-dim)">
-      GitHub Pages is static — it can't reach Garmin on its own. To refresh, paste this to Claude:
+      GitHub Pages is static, so it can't reach Garmin on its own. To refresh it, paste this to Claude (best after a Sunday long run):
     </p>
     <pre id="prompt"></pre>
     <button id="copy">Copy prompt</button>
@@ -277,198 +336,241 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   };
-
-  /* localStorage can throw in private mode / blocked-cookie contexts */
-  function load() {
-    try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { return {}; }
-  }
-  function save(v) {
-    try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) { /* non-fatal */ }
-  }
+  function load() { try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { return {}; } }
+  function save(v) { try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) {} }
   var done = load();
 
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-  /* Local calendar date. Not toISOString() — that is UTC, and rolls over
-     early for anyone east of Greenwich (in CEST it reports yesterday until
-     02:00 local). */
-  function localDateISO(dt) {
-    return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
-  }
-
+  /* Local calendar date — not toISOString(), which is UTC. */
+  function localDateISO(dt) { return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate()); }
   var todayISO = localDateISO(new Date());
+  function hms(sec) {
+    sec = Math.round(Math.abs(sec));
+    var h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+    return (h ? h + ':' + pad(m) : m) + ':' + pad(s);
+  }
+  function pace(sec, km) { var p = Math.round(sec / km); return Math.floor(p / 60) + ':' + pad(p % 60); }
+  function fmtDate(iso) {
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return +iso.slice(8) + ' ' + M[+iso.slice(5, 7) - 1] + ' ' + iso.slice(0, 4);
+  }
+  function daysBetween(a, b) { return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000); }
 
-  /* ---------- header ---------- */
-  $('eyebrow').textContent = D.race.name + ' · ' + D.race.date +
-                             (D.race.startLabel ? ' · ' + D.race.startLabel : '');
-  $('subtitle').textContent = D.race.goalLabel + ' — targeting ' + D.race.targetLabel +
-                              ' at ' + D.race.targetPace + ' /km';
-
-  /* Counts down to the actual gun time. data.js carries startsAt with an
-     explicit UTC offset, so this is right from any timezone; falls back to
-     local midnight on race day if startsAt is missing. */
-  var raceStart = new Date(D.race.startsAt || (D.race.date + 'T00:00:00'));
+  /* ---------- header: countdown to the next race in the Garmin calendar ---------- */
+  var upcoming = D.events.filter(function (e) { return e.date >= todayISO; });
+  var nextRace = upcoming[0];
+  var primary = D.events.filter(function (e) { return e.primary && e.date >= todayISO; })[0];
+  $('eyebrow').textContent = 'Garmin-driven plan · updated ' + D.meta.lastUpdated.slice(0, 10);
+  $('subtitle').textContent = primary
+    ? 'Main event: ' + primary.name + ', ' + fmtDate(primary.date) + '. Then a sub-2 half in spring and a sub-4 marathon in autumn 2027.'
+    : 'A sub-2 half in spring, then a sub-4 marathon in autumn 2027.';
 
   function updateCountdown() {
-    var now = new Date();
-    var msLeft = raceStart - now;
-    if (msLeft > 0) {
-      var totalSecs = Math.floor(msLeft / 1000);
-      var d = Math.floor(totalSecs / 86400);
-      var h = Math.floor((totalSecs % 86400) / 3600);
-      var m = Math.floor((totalSecs % 3600) / 60);
-      var s = totalSecs % 60;
-      if (d > 0) {
-        $('cd-num').textContent = d + 'd ' + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
-        $('cd-lbl').textContent = 'until the gun';
-      } else {
-        $('cd-num').textContent = pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
-        $('cd-lbl').textContent = 'to go — rest up';
-      }
-    } else if (localDateISO(now) === D.race.date) {
-      /* Gun has gone but it is still race day, local time. */
-      $('cd-num').textContent = 'Today';
-      $('cd-lbl').textContent = 'Race day. Go get it.';
-    } else {
-      $('cd-num').textContent = 'Done';
-      $('cd-lbl').textContent = 'Race day has passed.';
+    if (!nextRace) { $('cd-num').textContent = '—'; $('cd-lbl').textContent = 'No upcoming race in Garmin. Add one.'; return; }
+    var start = new Date(nextRace.date + 'T' + (nextRace.start || '09:00') + ':00');
+    var ms = start - new Date();
+    if (ms > 0) {
+      var t = Math.floor(ms / 1000), d = Math.floor(t / 86400), h = Math.floor(t % 86400 / 3600), m = Math.floor(t % 3600 / 60), s = t % 60;
+      $('cd-num').textContent = (d > 0 ? d + 'd ' : '') + pad(h) + 'h ' + pad(m) + 'm ' + pad(s) + 's';
+    } else { $('cd-num').textContent = 'Today'; }
+    $('cd-lbl').textContent = 'until ' + nextRace.name + ' (' + nextRace.km + ' km)';
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  /* ---------- what to do next ---------- */
+  var sessions = D.schedule.filter(function (d) { return d.date >= todayISO; });
+  var todays = sessions.filter(function (d) { return d.date === todayISO; });
+  var phase = D.roadmap.filter(function (p) { return todayISO >= p.from && todayISO <= p.to; })[0];
+  var headline;
+  var light = function (d) { return d.type === 'rest' || d.type === 'cross'; };
+  var pending = todays.filter(function (d) { return !done[d.date] && !light(d); });
+  if (pending.length) headline = { when: 'Today', d: pending[0] };
+  else {
+    var nxt = sessions.filter(function (d) { return d.date > todayISO && d.type !== 'rest'; })[0];
+    if (nxt) headline = { when: (daysBetween(todayISO, nxt.date) === 1 ? 'Tomorrow' : nxt.dow + ' ' + fmtDate(nxt.date)), d: nxt };
+  }
+  var html = '';
+  if (headline) {
+    var lightToday = todays.filter(light)[0];
+    if (!pending.length && lightToday) html += '<div class="phase-now" style="margin:0 0 10px">Today: <b>' + esc(lightToday.title) + '</b> — ' + esc(lightToday.detail) + '</div>';
+    html += '<div class="when">' + esc(headline.when) + '</div>' +
+            '<div class="what">' + esc(headline.d.title) + '</div>' +
+            '<p class="why">' + esc(headline.d.detail) + '</p>';
+    var rest = sessions.filter(function (d) { return d.date > headline.d.date; }).slice(0, 6);
+    if (rest.length) {
+      html += '<div class="next-list">' + rest.map(function (d) {
+        return '<div class="row"><span class="dow">' + esc(d.dow) + ' ' + esc(d.date.slice(8)) + '/' + esc(d.date.slice(5, 7)) + '</span>' +
+               '<span class="pill ' + d.type + '">' + esc(d.type) + '</span><span>' + esc(d.title) + '</span></div>';
+      }).join('') + '</div>';
     }
+  } else {
+    html += '<div class="when">Plan ran out</div><div class="what">Time for a refresh</div>' +
+            '<p class="why">The scheduled days in data.js are all in the past. Use the prompt at the bottom to have Claude pull Garmin and write the next weeks.</p>';
   }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+  if (phase) html += '<div class="phase-now">Current phase: <b>' + esc(phase.title) + '</b> → ' + esc(phase.target) + '</div>';
+  var stale = daysBetween(D.meta.lastUpdated.slice(0, 10), todayISO);
+  if (stale > 10) html += '<div class="phase-now" style="color:var(--warn)">This data is ' + stale + ' days old. Refresh it from Garmin.</div>';
+  $('next').innerHTML = html;
 
-  /* ---------- banner ---------- */
-  if (D.status.warning) {
-    $('banner').innerHTML = '<div class="banner"><strong>Heads up.</strong> ' + esc(D.status.warning) + '</div>';
+  /* ---------- goals ---------- */
+  function spark(idx, goal) {
+    var h = D.predictions.history, vals = h.map(function (r) { return r[idx]; }).concat([goal]);
+    var mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals), W = 300, H = 70, P = 6;
+    var y = function (v) { return P + (mx - v) / ((mx - mn) || 1) * (H - 2 * P); };
+    var x = function (i) { return P + i / (h.length - 1) * (W - 2 * P); };
+    var pts = h.map(function (r, i) { return x(i).toFixed(1) + ',' + y(r[idx]).toFixed(1); }).join(' ');
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-label="Garmin prediction trend">' +
+      '<line x1="0" x2="' + W + '" y1="' + y(goal) + '" y2="' + y(goal) + '" stroke="var(--ok)" stroke-dasharray="4 4" stroke-width="1.2"/>' +
+      '<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="' + pts + '"/>' +
+      '<circle cx="' + x(h.length - 1) + '" cy="' + y(h[h.length - 1][idx]) + '" r="3.5" fill="var(--accent)"/></svg>';
   }
+  $('goals').innerHTML = D.goals.map(function (g) {
+    var gap = g.predSec - g.goalSec, ok = gap <= 0;
+    var perKm = Math.round(gap / g.distanceKm);
+    return '<div class="card goal"><h3>' + esc(g.label) + '</h3>' +
+      '<div class="gap' + (ok ? ' ok' : '') + '">' + (ok ? 'On track' : '+' + hms(gap)) + '</div>' +
+      '<div style="font-size:12.5px;color:var(--text-dim)">' + (ok ? 'Garmin already predicts it' : 'to find · ' + perKm + ' s per km') + '</div>' +
+      '<div style="margin-top:10px">' +
+        '<div class="row"><span>Goal pace</span><span>' + pace(g.goalSec, g.distanceKm) + ' /km</span></div>' +
+        '<div class="row"><span>Garmin predicts</span><span>' + hms(g.predSec) + ' · ' + pace(g.predSec, g.distanceKm) + '</span></div>' +
+        '<div class="row"><span>Your PR</span><span>' + hms(g.prSec) + '</span></div>' +
+      '</div>' + spark(g.id === 'hm' ? 3 : 4, g.goalSec) +
+      '<div class="small">Prediction since Aug (line) vs. goal (dashed). PR: ' + esc(g.prNote) + '.<br>Target race: ' + esc(g.when) + '</div></div>';
+  }).join('');
 
-  /* ---------- stat helper ---------- */
+  /* ---------- predictions + status ---------- */
   function statCard(k, v, n, cls) {
-    return '<div class="stat ' + (cls || '') + '">' +
-             '<div class="k">' + esc(k) + '</div>' +
-             '<div class="v">' + esc(v) + '</div>' +
-             (n ? '<div class="n">' + esc(n) + '</div>' : '') +
-           '</div>';
+    return '<div class="stat ' + (cls || '') + '"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + '</div>' +
+           (n ? '<div class="n">' + esc(n) + '</div>' : '') + '</div>';
   }
+  var c = D.predictions.current, h0 = D.predictions.history[0];
+  function delta(now, then) { var d = now - then; return (d > 0 ? '+' : '−') + hms(d) + ' vs ' + fmtDate(h0[0]).slice(0, -5); }
+  $('preds').innerHTML = [
+    statCard('5K', hms(c.k5), delta(c.k5, h0[1])),
+    statCard('10K', hms(c.k10), delta(c.k10, h0[2])),
+    statCard('Half', hms(c.hm), delta(c.hm, h0[3]), c.hm < 7200 ? 'good' : ''),
+    statCard('Marathon', hms(c.m), delta(c.m, h0[4]), c.m < 14400 ? 'good' : 'bad')
+  ].join('');
+  $('pred-note').textContent = D.predictions.note;
 
   var s = D.status;
   $('stats').innerHTML = [
-    statCard('Garmin prediction', s.garminPrediction, s.predictionNote, s.onTrack ? 'good' : 'bad'),
-    statCard('Readiness', s.readinessScore + '/100', s.readinessLevel, s.readinessScore < 30 ? 'bad' : (s.readinessScore > 65 ? 'good' : '')),
-    statCard('Recovery clock', s.recoveryHours + ' h', s.recoveryHours > 24 ? 'still counting down' : 'clear'),
+    statCard('Training status', s.trainingStatus, 'load ' + s.acuteLoad + ' acute / ' + s.chronicLoad + ' chronic'),
+    statCard('Readiness', s.readinessScore + '/100', s.readinessLevel, s.readinessScore < 40 ? 'bad' : (s.readinessScore > 65 ? 'good' : '')),
+    statCard('VO2 max', s.vo2max, 'running'),
+    statCard('HRV', s.hrvStatus.split(' · ')[0], s.hrvStatus.split(' · ')[1]),
     statCard('Resting HR', s.restingHR + ' bpm', '7-day avg ' + s.rhr7Day),
-    statCard('Last week', s.lastWeekKm + ' km', 'running volume'),
-    statCard('Acute load', s.acuteLoad, '')
+    statCard('Load balance', s.loadBalance.split(' — ')[0], s.loadBalance.split(' — ')[1], 'bad')
   ].join('');
 
-  $('benchmarks').innerHTML = D.benchmarks.map(function (b) {
-    return statCard(b.label, b.value, b.note);
+  /* ---------- weekly volume ---------- */
+  var wk = D.weeklyKm, tgt = D.weeklyTargetKm, top = Math.max(tgt.m, Math.max.apply(null, wk.map(function (w) { return w[1]; }))) * 1.08;
+  $('vol').innerHTML = wk.map(function (w, i) {
+    return '<div class="b' + (i === wk.length - 1 ? ' partial' : '') + '" style="height:' + (w[1] / top * 100) + '%"><em>' + Math.round(w[1]) + '</em></div>';
+  }).join('') +
+    '<div class="tl" style="bottom:' + (tgt.hm / top * 100) + '%"><span>sub-2 half ≈ ' + tgt.hm + ' km/week</span></div>' +
+    '<div class="tl m" style="bottom:' + (tgt.m / top * 100) + '%"><span>sub-4 marathon ≈ ' + tgt.m + ' km/week</span></div>';
+  $('vol-x').innerHTML = wk.map(function (w) { return '<span>' + esc(w[0]) + '</span>'; }).join('');
+
+  $('benchmarks').innerHTML = D.benchmarks.map(function (b) { return statCard(b.label, b.value, b.note); }).join('');
+
+  /* ---------- roadmap ---------- */
+  $('roadmap').innerHTML = D.roadmap.map(function (p) {
+    var now = todayISO >= p.from && todayISO <= p.to;
+    return '<div class="phase' + (now ? ' now' : '') + '"><h4>' + esc(p.title) + (now ? '<span class="tag">now</span>' : '') + '</h4>' +
+      '<div class="dates">' + fmtDate(p.from) + ' → ' + fmtDate(p.to) + '</div>' +
+      '<div class="tgt">' + esc(p.target) + '</div>' +
+      '<ul>' + p.bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul></div>';
   }).join('');
 
-  /* ---------- weeks ---------- */
+  /* ---------- schedule, grouped into Mon–Sun weeks ---------- */
+  function mondayOf(iso) { var d = new Date(iso + 'T12:00:00'); var k = (d.getDay() + 6) % 7; d.setDate(d.getDate() - k); return localDateISO(d); }
+  var weeks = [], byWeek = {};
+  D.schedule.forEach(function (d) { var m = mondayOf(d.date); if (!byWeek[m]) { byWeek[m] = []; weeks.push(m); } byWeek[m].push(d); });
   function isSession(d) { return d.type !== 'rest'; }
+  var kmRe = /(\d+(?:\.\d+)?)\s*km/;
 
   function render() {
-    $('weeks').innerHTML = D.weeks.map(function (w) {
-      var rows = w.days.map(function (d) {
-        var id = d.date;
+    $('weeks').innerHTML = weeks.map(function (m) {
+      var days = byWeek[m];
+      var km = days.reduce(function (a, d) { var x = kmRe.exec(d.title); return a + (x && d.type !== 'cross' ? +x[1] : 0); }, 0);
+      var rows = days.map(function (d) {
+        var id = d.date + (days.filter(function (o) { return o.date === d.date; }).length > 1 ? '-' + days.indexOf(d) : '');
         var isDone = !!done[id];
         var cls = ['day', d.type, isDone ? 'done' : '', d.date === todayISO ? 'today' : '', d.key ? 'key' : ''].join(' ');
         return '<label class="' + cls + '" for="cb-' + id + '">' +
-                 '<input type="checkbox" id="cb-' + id + '" data-d="' + id + '"' + (isDone ? ' checked' : '') + '>' +
-                 '<div class="day-body">' +
-                   '<div class="day-line">' +
-                     '<span class="dow">' + esc(d.dow) + ' ' + esc(d.date.slice(8)) + '/' + esc(d.date.slice(5, 7)) + '</span>' +
-                     '<span class="day-title">' + esc(d.title) + '</span>' +
-                     '<span class="pill ' + d.type + '">' + esc(d.type) + '</span>' +
-                   '</div>' +
-                   (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') +
-                 '</div>' +
-               '</label>';
+          '<input type="checkbox" id="cb-' + id + '" data-d="' + id + '"' + (isDone ? ' checked' : '') + '>' +
+          '<div class="day-body"><div class="day-line">' +
+            '<span class="dow">' + esc(d.dow) + ' ' + esc(d.date.slice(8)) + '/' + esc(d.date.slice(5, 7)) + '</span>' +
+            '<span class="day-title">' + esc(d.title) + '</span>' +
+            '<span class="pill ' + d.type + '">' + esc(d.type) + '</span>' +
+            '<span class="src">' + (d.src === 'coach' ? 'Garmin Coach' : d.src === 'adj' ? 'adjusted' : 'suggested') + '</span>' +
+          '</div>' + (d.detail ? '<div class="day-detail">' + esc(d.detail) + '</div>' : '') + '</div></label>';
       }).join('');
-
-      return '<section class="week">' +
-               '<div class="week-head">' +
-                 '<div class="top"><h3>' + esc(w.label) + '</h3>' +
-                 '<span class="meta">' + esc(w.range) + ' · ' + esc(w.volumeKm) + ' km</span></div>' +
-                 (w.focus ? '<p class="focus">' + esc(w.focus) + '</p>' : '') +
-               '</div>' + rows +
-             '</section>';
+      return '<section class="week"><div class="week-head"><div class="top"><h3>Week of ' + fmtDate(m) + '</h3>' +
+        '<span class="meta">≈ ' + Math.round(km) + ' km planned</span></div></div>' + rows + '</section>';
     }).join('');
-
     Array.prototype.forEach.call(document.querySelectorAll('.day input'), function (cb) {
       cb.addEventListener('change', function () {
-        if (cb.checked) { done[cb.dataset.d] = 1; } else { delete done[cb.dataset.d]; }
+        if (cb.checked) done[cb.dataset.d] = 1; else delete done[cb.dataset.d];
         save(done); render();
       });
     });
-
-    progress();
-  }
-
-  function progress() {
-    var all = [], hit = 0;
-    D.weeks.forEach(function (w) {
-      w.days.forEach(function (d) { if (isSession(d)) { all.push(d); if (done[d.date]) hit++; } });
-    });
-    var pct = all.length ? Math.round(hit / all.length * 100) : 0;
+    var all = 0, hit = 0;
+    weeks.forEach(function (m) { byWeek[m].forEach(function (d, i) { if (isSession(d)) { all++; var id = d.date + (byWeek[m].filter(function (o) { return o.date === d.date; }).length > 1 ? '-' + i : ''); if (done[id]) hit++; } }); });
+    var pct = all ? Math.round(hit / all * 100) : 0;
     $('prog-bar').style.width = pct + '%';
-    $('prog-label').textContent = hit + ' of ' + all.length + ' sessions logged';
+    $('prog-label').textContent = hit + ' of ' + all + ' sessions logged';
     $('prog-pct').textContent = pct + '%';
   }
-
   render();
-
-  $('reset').addEventListener('click', function () {
-    done = {}; save(done); render();
-  });
+  $('reset').addEventListener('click', function () { done = {}; save(done); render(); });
 
   /* ---------- tables ---------- */
   $('paces').innerHTML = D.paces.map(function (p) {
-    return '<tr class="tone-' + esc(p.tone) + '"><td>' + esc(p.zone) + '</td>' +
-           '<td class="num">' + esc(p.pace) + '</td><td>' + esc(p.cue) + '</td></tr>';
+    return '<tr class="tone-' + esc(p.tone) + '"><td>' + esc(p.zone) + '</td><td class="num">' + esc(p.pace) + '</td><td>' + esc(p.cue) + '</td></tr>';
   }).join('');
 
-  $('splits').innerHTML = D.racePlan.splits.map(function (r) {
-    return '<tr><td class="num">' + esc(r.seg) + '</td><td class="num">' + esc(r.pace) + '</td>' +
-           '<td class="num">' + esc(r.elapsed) + '</td><td>' + esc(r.cue) + '</td></tr>';
+  var evs = D.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+  var up = evs.filter(function (e) { return e.date >= todayISO; }), past = evs.filter(function (e) { return e.date < todayISO; }).reverse();
+  $('events').innerHTML = up.concat(past).map(function (e) {
+    var isUp = e.date >= todayISO;
+    var res = isUp ? 'goal ' + (e.goal || '—') + (e.garminPred ? ' · Garmin ' + e.garminPred : '') : (e.result || '—');
+    var note = isUp ? (function (n) { return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; })(daysBetween(todayISO, e.date)) + (e.start ? ' · ' + e.start : '') : (e.note || '');
+    return '<tr class="' + (isUp ? 'up' : 'past') + (e.primary ? ' primary' : '') + '"><td class="num">' + esc(e.date) + '</td><td>' + esc(e.name) +
+      '</td><td class="num">' + esc(e.km) + '</td><td class="num">' + esc(res) + '</td><td>' + esc(note) + '</td></tr>';
   }).join('');
 
-  $('fuel').innerHTML = D.racePlan.fueling.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('');
-  $('race-warn').textContent = D.racePlan.warning;
-
-  $('keys').innerHTML = D.keys.map(function (k) {
-    return '<div class="key-item"><h4>' + esc(k.title) + '</h4><p>' + esc(k.body) + '</p></div>';
+  $('runs').innerHTML = D.recentRuns.map(function (r) {
+    return '<tr><td class="num">' + esc(r.date) + '</td><td>' + esc(r.name) + '</td><td class="num">' + esc(r.km) + '</td><td class="num">' + esc(r.time) +
+      '</td><td class="num">' + esc(r.pace) + '</td><td class="num">' + esc(r.hr) + '</td><td class="num">' + esc(r.cad) + '</td></tr>';
   }).join('');
 
+  $('keys').innerHTML = D.keys.map(function (k) { return '<div class="key-item"><h4>' + esc(k.title) + '</h4><p>' + esc(k.body) + '</p></div>'; }).join('');
   $('bailout').textContent = D.bailout;
 
   /* ---------- update prompt ---------- */
   var promptText =
-    'Pull my latest Garmin data and update my sub-2 half marathon site.\n\n' +
-    'Repo: sub2-half-marathon (rewrite data.js only, leave index.html alone).\n\n' +
-    'Refresh: race prediction, training readiness, recovery hours, resting HR + 7-day avg,\n' +
-    'last week running volume, and acute load. Re-check whether the remaining weeks still\n' +
-    'make sense given how the last block actually went, and adjust the sessions if not.\n' +
-    'Flag it plainly if sub-2:00 no longer looks realistic.';
+    'Pull my latest Garmin data and update my training site.\n\n' +
+    'Repo: schneutzi-81/sub2-half-marathon. Rewrite data.js only; leave index.html alone.\n\n' +
+    'Refresh: race predictions (5K/10K/half/marathon, add this week to the history), all events in my\n' +
+    'Garmin calendar with results, training status, readiness, HRV, resting HR, VO2 max, load balance,\n' +
+    'weekly km and recent runs. Pull the upcoming Garmin Coach workouts and rewrite the schedule for the\n' +
+    'next three weeks, adjusted to what I actually ran. Update the roadmap if a goal date moved.\n' +
+    'Be honest about whether sub-2:00 half and sub-4:00 marathon are still on track. Then commit and push.';
   $('prompt').textContent = promptText;
-
   $('copy').addEventListener('click', function () {
     var btn = $('copy');
     function ok() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy prompt'; }, 1600); }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(promptText).then(ok, fallback);
-    } else { fallback(); }
     function fallback() {
-      var ta = document.createElement('textarea');
-      ta.value = promptText; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      var ta = document.createElement('textarea'); ta.value = promptText; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
       try { document.execCommand('copy'); ok(); } catch (e) { btn.textContent = 'Select and copy manually'; }
       document.body.removeChild(ta);
     }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(promptText).then(ok, fallback); else fallback();
   });
 
-  /* ---------- footer ---------- */
   $('updated').textContent = D.meta.lastUpdated;
   $('source').textContent = D.meta.source;
 })();
