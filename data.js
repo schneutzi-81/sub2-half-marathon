@@ -32,37 +32,39 @@ window.TRAINING_DATA = {
     zone2:      { title: "Zone 2 explained: why slow running makes you faster",  url: "https://www.youtube.com/watch?v=Lny8Zr-es1Y" }
   },
 
-  /* --- Spotify playlists. The page puts the matching one on each run day by type. --- */
+  /* --- Spotify's own playlists (curated by Spotify). The page puts the matching
+     one on each day by session type. --- */
   playlists: {
-    cadence160: { title: "Running: 160–170 bpm", note: "Indie rock at easy-run cadence. Step on the beat.", url: "https://open.spotify.com/playlist/43recUfrB5jE0jG0Mi5Thw" },
-    bpm160real: { title: "Running (160–170 bpm, for real)", note: "130 songs, all 160–170 bpm.", url: "https://open.spotify.com/playlist/4ZpdzykoSBKJ8X7tuePWQn" },
-    pop170:     { title: "170 BPM Running Pop", note: "For strides, threshold and intervals.", url: "https://open.spotify.com/playlist/7boSHUJs7Q41xFSIkc4vZp" },
-    rock170:    { title: "Running (.be) – 170 BPM", note: "Foo Fighters, AC/DC, Queen. About 5 h.", url: "https://open.spotify.com/playlist/5MqtnN4IrHakSi739ucN4t" },
-    marathon:   { title: "Marathon Motivation – 5 hours", note: "Made for 42 km. Use it for long runs.", url: "https://open.spotify.com/playlist/1sDh6R7CUPDIdCSSZtRjs7" },
-    runRock:    { title: "RUN ROCK – Running Motivation", note: "600+ rock tracks for race day.", url: "https://open.spotify.com/playlist/70jMa4jtXSO4JScb15oJD6" }
+    indieRun:  { title: "Indie Running", for: "Easy & base runs", note: "Spotify's indie running mix. Steady and relaxed, good for easy runs.", url: "https://open.spotify.com/playlist/37i9dQZF1DWZq91oLsHZvy" },
+    retroRun:  { title: "Retro Running", for: "Long runs", note: "Spotify's 3-hour classics mix. Long enough for a 23 km run.", url: "https://open.spotify.com/playlist/37i9dQZF1DX4osfY3zybD2" },
+    popRun:    { title: "00s Pop Run", for: "Shakeouts & strides", note: "Energetic 2000s tracks for short runs.", url: "https://open.spotify.com/playlist/37i9dQZF1DXbcCmWfoUaw2" },
+    power:     { title: "Power Workout", for: "Threshold & intervals", note: "Spotify's high-intensity mix for the hard sessions.", url: "https://open.spotify.com/playlist/37i9dQZF1DWUVpAXiEPK8P" },
+    beastMode: { title: "Beast Mode", for: "Race day", note: "Spotify's full-energy workout list. For racing.", url: "https://open.spotify.com/playlist/37i9dQZF1DX76Wlfdnj7AP" },
+    workout:   { title: "Workout", for: "Strength days", note: "Spotify's general workout playlist for the strength sessions.", url: "https://open.spotify.com/playlist/37i9dQZF1DX70RN3TfWWJh" },
+    stretch:   { title: "10 Min. Full Body Stretch", for: "Stretching & mobility", note: "Ten calm minutes. Matches the post-run stretch.", url: "https://open.spotify.com/playlist/37i9dQZF1DX2zhE573peNF" }
   },
-  playlistByType: { easy: "cadence160", workout: "pop170", long: "marathon", race: "runRock" },
+  playlistByType: { easy: "indieRun", workout: "power", long: "retroRun", race: "beastMode", cross: "workout" },
 
   /* --- Daily tips. The page shows three a day, rotating by date, so each
      comes back about once a week. cat: run | recovery | strength | fuel | mobility | sleep | mind --- */
   tips: [
-    { cat: "run",      title: "Easy means easy", videos: ["easyPace", "zone2"],                 body: "Your 'base' runs are at HR 146–152. Keep them under ~145, even if that means 6:30 /km. That's where the aerobic base for the marathon comes from." },
-    { cat: "run",      title: "Strides twice a week", videos: ["strides"],            body: "After an easy run: 4–6 × 20 s fast and relaxed, with a full walk back. It's the cheapest way to get the speed Garmin says is missing." },
-    { cat: "run",      title: "Cadence: 160+", videos: ["cadence", "metronome"], playlist: "cadence160",                   body: "You've gone from 150 to 157–159. On easy runs, aim for 162–165 with shorter, quicker steps. It means less braking and less load on your knees and shins." },
-    { cat: "run",      title: "Three runs is the minimum",        playlist: "bpm160real",        body: "Every week with three runs beats one hero week of 37 km. That consistency is what's been missing since August, not motivation." },
+    { cat: "run",      title: "Easy means easy", playlist: "indieRun", videos: ["easyPace", "zone2"],                 body: "Your 'base' runs are at HR 146–152. Keep them under ~145, even if that means 6:30 /km. That's where the aerobic base for the marathon comes from." },
+    { cat: "run",      title: "Strides twice a week", playlist: "popRun", videos: ["strides"],            body: "After an easy run: 4–6 × 20 s fast and relaxed, with a full walk back. It's the cheapest way to get the speed Garmin says is missing." },
+    { cat: "run",      title: "Cadence: 160+", videos: ["cadence", "metronome"], playlist: "indieRun",                   body: "You've gone from 150 to 157–159. On easy runs, aim for 162–165 with shorter, quicker steps. It means less braking and less load on your knees and shins." },
+    { cat: "run",      title: "Three runs is the minimum",        playlist: "indieRun",        body: "Every week with three runs beats one hero week of 37 km. That consistency is what's been missing since August, not motivation." },
     { cat: "run",      title: "Even pacing wins", videos: ["zone2"],                 body: "In races and long runs, make the first 3 km your slowest. Your best results (Bramfeld II, the Hammer Lauf half) came from even splits." },
-    { cat: "run",      title: "Hills count as speedwork", videos: ["strides", "warmup5"],         body: "Once a week, 6–8 × 30 s uphill hard with a walk down. That's strength and power for the legs, with less impact than track intervals." },
+    { cat: "run",      title: "Hills count as speedwork", playlist: "power", videos: ["strides", "warmup5"],         body: "Once a week, 6–8 × 30 s uphill hard with a walk down. That's strength and power for the legs, with less impact than track intervals." },
     { cat: "recovery", title: "Check readiness in the morning",   body: "Under 40: run easy or rest. 40–65: train as planned. Over 65: the hard session can be properly hard. That's better than going by feel after a long work day." },
     { cat: "recovery", title: "No two hard days in a row",        body: "Threshold, intervals and long runs each need a calm day after them. Swimming and easy cycling are fine on those days." },
     { cat: "recovery", title: "Watch your resting HR",            body: "Your normal is 57–58. If it's 5+ beats higher in the morning, you're coming down with something or under-recovered. Make it an easy day." },
-    { cat: "strength", title: "10 minutes, three times a week", videos: ["strength10", "legsCore12"],   body: "Calf raises, split squats, glute bridges, side plank. Strong calves and hips protect your Achilles and knees once you build to 40–60 km a week." },
-    { cat: "strength", title: "Do Garmin Coach's strength days", videos: ["strength22", "core10"],  body: "The Base Builder and Core Circuit sessions aren't optional. For the marathon goal, they're injury insurance." },
-    { cat: "strength", title: "Single-leg strength", videos: ["bulgarian"],              body: "Running is a series of one-legged jumps. 3 × 8 Bulgarian split squats per leg, twice a week, is worth more than any new shoe." },
+    { cat: "strength", title: "10 minutes, three times a week", playlist: "workout", videos: ["strength10", "legsCore12"],   body: "Calf raises, split squats, glute bridges, side plank. Strong calves and hips protect your Achilles and knees once you build to 40–60 km a week." },
+    { cat: "strength", title: "Do Garmin Coach's strength days", playlist: "workout", videos: ["strength22", "core10"],  body: "The Base Builder and Core Circuit sessions aren't optional. For the marathon goal, they're injury insurance." },
+    { cat: "strength", title: "Single-leg strength", playlist: "workout", videos: ["bulgarian"],              body: "Running is a series of one-legged jumps. 3 × 8 Bulgarian split squats per leg, twice a week, is worth more than any new shoe." },
     { cat: "fuel",     title: "Practise long-run fuelling",       body: "Take a gel or a few sips of sports drink on every run over 75 min. Your gut needs to learn it before the marathon. Never try anything new on race day." },
     { cat: "fuel",     title: "Breakfast before hard sessions",   body: "Have something light with carbs 1–2 hours before threshold or interval sessions (toast, a banana, porridge). An empty tank makes the session worse, not better." },
     { cat: "fuel",     title: "Protein after training",           body: "Have a proper meal with protein within an hour or two: quark, eggs, fish, lentils. That's when the training actually turns into fitness." },
     { cat: "fuel",     title: "Drink before you're thirsty",      body: "Have a glass of water with every meal and before every run. In winter you notice thirst less, but you still lose fluid." },
-    { cat: "mobility", title: "Five minutes after every run", videos: ["stretch7"],     body: "Calves against a wall, hip flexors in a lunge, hamstrings lying down. 30–45 s each, before you sit down." },
+    { cat: "mobility", title: "Five minutes after every run", playlist: "stretch", videos: ["stretch7"],     body: "Calves against a wall, hip flexors in a lunge, hamstrings lying down. 30–45 s each, before you sit down." },
     { cat: "mobility", title: "Warm up before fast running", videos: ["warmup5"],      body: "10 min easy jogging, then leg swings, A-skips, 2 strides. Never go into a threshold rep cold. Most strains happen in the first fast minute." },
     { cat: "sleep",    title: "Sleep is training too",           body: "Your best readiness scores follow good nights. 7.5–8 h before key sessions does more for 5:38 /km than an extra run." },
     { cat: "sleep",    title: "Wear the watch at night",         body: "Without sleep data, readiness and HRV are just guessing. That happened in September, and the plan was steering blind." },
@@ -201,28 +203,28 @@ window.TRAINING_DATA = {
      src: "coach" = from the Garmin Coach plan, "adj" = changed by Claude,
      "plan" = Claude's suggestion beyond what Garmin has scheduled. --- */
   schedule: [
-    { date: "2026-11-14", dow: "Sat", type: "cross",   src: "adj",   title: "Swim done, no run", detail: "Garmin Coach had a 15 km long run today. Skip it: tomorrow's race is the long run this week." },
-    { date: "2026-11-15", dow: "Sun", type: "race",    src: "adj",   title: "Bramfeld I · 23.3 km · 09:30", playlist: "marathon", detail: "Run it as a long run at 6:20–6:30 /km, which matches your 2:29 goal (6:24). It's longer than anything since April, so start at 6:35 for the first 3 km. Take 2 gels (km 8 and 16). Last year you ran 2:29:33 here: beat it by staying even.", key: true },
+    { date: "2026-11-14", dow: "Sat", type: "cross",   src: "adj",   title: "Swim done, no run", playlist: "", detail: "Garmin Coach had a 15 km long run today. Skip it: tomorrow's race is the long run this week." },
+    { date: "2026-11-15", dow: "Sun", type: "race",    src: "adj",   title: "Bramfeld I · 23.3 km · 09:30", playlist: "retroRun", detail: "Run it as a long run at 6:20–6:30 /km, which matches your 2:29 goal (6:24). It's longer than anything since April, so start at 6:35 for the first 3 km. Take 2 gels (km 8 and 16). Last year you ran 2:29:33 here: beat it by staying even.", key: true },
     { date: "2026-11-16", dow: "Mon", type: "cross",   src: "coach", title: "Strength: Base Builder 1 (60 min)", videos: ["strength22", "legsCore12"], detail: "From Garmin Coach. The workout is on your watch, or follow one of the videos. Keep it light the day after 23 km; drop the leg work if your calves are sore." },
     { date: "2026-11-17", dow: "Tue", type: "workout", src: "adj",   title: "Threshold · 6.3 km @ 5:05 (Garmin Coach)", videos: ["warmup5"], detail: "If morning readiness is under 50, move it to Wed. These are the anaerobic and threshold minutes Garmin says you're missing." },
     { date: "2026-11-18", dow: "Wed", type: "rest",    src: "coach", title: "Rest", detail: "" },
     { date: "2026-11-19", dow: "Thu", type: "easy",    src: "coach", title: "Base 8.7 km @ 6:10 + Core Circuit 2", videos: ["core10", "stretch7"], detail: "Keep HR under 145. Your last two 'base' runs were at 146 and 152, which is why the high-aerobic load is over target." },
     { date: "2026-11-20", dow: "Fri", type: "rest",    src: "coach", title: "Rest", detail: "" },
-    { date: "2026-11-21", dow: "Sat", type: "easy",    src: "plan",  title: "Easy 5 km + 4 strides", videos: ["strides"], detail: "Follow the Garmin Coach workout if it schedules something different." },
+    { date: "2026-11-21", dow: "Sat", type: "easy",    src: "plan",  title: "Easy 5 km + 4 strides", videos: ["strides"], playlist: "popRun", detail: "Follow the Garmin Coach workout if it schedules something different." },
     { date: "2026-11-22", dow: "Sun", type: "long",    src: "plan",  title: "Long 14 km @ 6:30–6:45", detail: "End of the Base phase. Fully conversational.", key: true },
 
-    { date: "2026-11-23", dow: "Mon", type: "rest",    src: "plan",  title: "Rest / strength", videos: ["strength10", "bulgarian"], detail: "Build phase starts. 10 min strength if you have the energy." },
+    { date: "2026-11-23", dow: "Mon", type: "rest",    src: "plan",  title: "Rest / strength", playlist: "workout", videos: ["strength10", "bulgarian"], detail: "Build phase starts. 10 min strength if you have the energy." },
     { date: "2026-11-24", dow: "Tue", type: "workout", src: "plan",  title: "9 km with 5 × 1 km @ 5:10–5:15", videos: ["warmup5"], detail: "2 min jog between. 2 km warm-up and cool-down. ~9 km total." },
     { date: "2026-11-25", dow: "Wed", type: "rest",    src: "plan",  title: "Rest or swim", detail: "" },
     { date: "2026-11-26", dow: "Thu", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "HR under 145." },
     { date: "2026-11-27", dow: "Fri", type: "rest",    src: "plan",  title: "Rest", detail: "" },
-    { date: "2026-11-28", dow: "Sat", type: "easy",    src: "plan",  title: "Shakeout 4 km + 3 strides", videos: ["strides"], detail: "" },
+    { date: "2026-11-28", dow: "Sat", type: "easy",    src: "plan",  title: "Shakeout 4 km + 3 strides", videos: ["strides"], playlist: "popRun", detail: "" },
     { date: "2026-11-29", dow: "Sun", type: "race",    src: "plan",  title: "St. Pauli Xmas Run 5K · 11:30", detail: "Race this one, unlike last year's fun run. Garmin predicts 25:02 and your PR is 25:44 from 2023. Start at 5:05 and finish strong. It's an honest speed check, and a sub-25 means sub-2 half speed is already there. Jog 4–5 km afterwards.", key: true },
 
     { date: "2026-11-30", dow: "Mon", type: "rest",    src: "plan",  title: "Rest", detail: "" },
     { date: "2026-12-01", dow: "Tue", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "" },
     { date: "2026-12-02", dow: "Wed", type: "workout", src: "plan",  title: "8 km with 6 × 800 m @ 4:50–4:55", videos: ["warmup5"], detail: "400 m jog between. Pace from your 5K result if it moved." },
-    { date: "2026-12-03", dow: "Thu", type: "rest",    src: "plan",  title: "Rest / strength", videos: ["legsCore12", "core10"], detail: "" },
+    { date: "2026-12-03", dow: "Thu", type: "rest",    src: "plan",  title: "Rest / strength", playlist: "workout", videos: ["legsCore12", "core10"], detail: "" },
     { date: "2026-12-04", dow: "Fri", type: "easy",    src: "plan",  title: "Easy 6 km", detail: "" },
     { date: "2026-12-05", dow: "Sat", type: "rest",    src: "plan",  title: "Rest", detail: "" },
     { date: "2026-12-06", dow: "Sun", type: "long",    src: "plan",  title: "Long 18 km @ 6:25–6:40", videos: ["stretch7"], detail: "First step towards 20–23 km by mid-December.", key: true }

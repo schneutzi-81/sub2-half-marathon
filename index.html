@@ -347,7 +347,7 @@
   </div>
   <div id="weeks"></div>
 
-  <h2>Running playlists</h2>
+  <h2>Spotify playlists</h2>
   <div class="card" id="playlists"></div>
 
   <h2>Training videos</h2>
@@ -464,16 +464,16 @@
   function music(k, withNote) {
     var v = D.playlists && D.playlists[k]; if (!v) return '';
     return '<a class="vid sp" href="' + esc(v.url) + '" target="_blank" rel="noopener"><span class="play"></span><span>' + esc(v.title) +
-           (withNote ? '<span class="note">' + esc(v.note) + '</span>' : '') + '</span></a>';
+           (withNote ? '<span class="note">' + (v.for ? '<b>' + esc(v.for) + '</b> · ' : '') + esc(v.note) + '</span>' : '') + '</span></a>';
   }
   function dayMusic(d) {
-    if (!D.playlistByType || d.type === 'rest' || d.type === 'cross') return '';
-    var k = d.playlist || D.playlistByType[d.type];
+    if (!D.playlistByType || (d.type === 'rest' && !d.playlist)) return '';
+    var k = d.playlist !== undefined ? d.playlist : D.playlistByType[d.type];
     return k ? '<div class="vids">' + music(k) + '</div>' : '';
   }
   if (D.playlists) {
     $('playlists').innerHTML = '<div class="vid-list">' + Object.keys(D.playlists).map(function (k) { return music(k, true); }).join('') + '</div>' +
-      '<p style="margin:4px 0 0;font-size:12.5px;color:var(--text-dim)">Opens Spotify. The 160–170 bpm lists suit easy runs: step on the beat and your cadence goes up without thinking about it. Each run day in the plan has a matching playlist.</p>';
+      '<p style="margin:4px 0 0;font-size:12.5px;color:var(--text-dim)">Spotify\u2019s own fitness playlists, one per session type. Each day in the plan shows the matching one. Tip: Spotify\u2019s playlists don\u2019t hold a fixed tempo, so on cadence days run with a metronome at 162–165.</p>';
   }
   if (D.videos) {
     $('videos').innerHTML = '<div class="vid-list">' + Object.keys(D.videos).map(function (k) { return vids([k]); }).join('') + '</div>' +
