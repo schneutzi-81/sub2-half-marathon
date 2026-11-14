@@ -398,7 +398,12 @@
   </footer>
 </div>
 
-<script src="data.js"></script>
+<script>
+  /* Always fetch the newest data.js. GitHub Pages lets browsers cache files for
+     10 minutes, which made fresh updates look missing on the phone. */
+  document.write('<script src="data.js?t=' + Date.now() + '"><\/script>');
+</script>
+<noscript><script src="data.js"></script></noscript>
 <script>
 (function () {
   var D = window.TRAINING_DATA;
