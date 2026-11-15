@@ -12,8 +12,8 @@
 window.TRAINING_DATA = {
 
   meta: {
-    lastUpdated: "2026-11-14 18:40 CET",
-    source: "Garmin Connect (Forerunner 970) · watch last synced 2026-11-14 ~18:10 CET"
+    lastUpdated: "2026-11-15 18:50 CET",
+    source: "Garmin Connect (Forerunner 970 / HRM 600) · watch last synced 2026-11-15 18:42 CET"
   },
 
   /* --- Follow-along videos. Tips and schedule days reference them by key. --- */
@@ -74,15 +74,15 @@ window.TRAINING_DATA = {
 
   /* --- The two goals. pred = Garmin's current race prediction. --- */
   goals: [
-    { id: "hm", label: "Sub-2:00 Half Marathon", distanceKm: 21.0975, goalSec: 7199,  predSec: 7418,  prSec: 7491,  prNote: "Hammer Lauf Hamburg · 19 Apr 2026",
+    { id: "hm", label: "Sub-2:00 Half Marathon", distanceKm: 21.0975, goalSec: 7199,  predSec: 7301,  prSec: 7491,  prNote: "Hammer Lauf Hamburg · 19 Apr 2026",
       when: "Spring 2027 — a flat half in April (Hammer Lauf Hamburg ran on 19 Apr this year)" },
-    { id: "m",  label: "Sub-4:00 Marathon",       distanceKm: 42.195,  goalSec: 14399, predSec: 16849, prSec: 15889, prNote: "Mitteldeutscher Marathon · 12 Oct 2025",
+    { id: "m",  label: "Sub-4:00 Marathon",       distanceKm: 42.195,  goalSec: 14399, predSec: 16524, prSec: 15889, prNote: "Mitteldeutscher Marathon · 12 Oct 2025",
       when: "Autumn 2027 — after the sub-2 half has proven the speed" }
   ],
 
   /* --- Garmin race predictions (weekly samples). [date, 5K, 10K, HM, M] in seconds --- */
   predictions: {
-    current: { date: "2026-11-14", k5: 1502, k10: 3248, hm: 7418, m: 16849 },
+    current: { date: "2026-11-15", k5: 1476, k10: 3201, hm: 7301, m: 16524 },
     history: [
       ["2026-08-01", 1494, 3212, 7323, 16290],
       ["2026-08-08", 1502, 3222, 7349, 16328],
@@ -99,25 +99,29 @@ window.TRAINING_DATA = {
       ["2026-10-24", 1494, 3250, 7419, 16692],
       ["2026-10-31", 1482, 3221, 7348, 16664],
       ["2026-11-07", 1489, 3230, 7367, 16720],
-      ["2026-11-14", 1502, 3248, 7418, 16849]
+      ["2026-11-14", 1502, 3248, 7418, 16849],
+      ["2026-11-15", 1476, 3201, 7301, 16524]
     ],
-    note: "The half has held at 2:02–2:05 for three months. The marathon has drifted 4:31 → 4:41 since August: Garmin can see the speed, but not the long runs."
+    note: "Today's 18.8 km pulled the half to 2:01:41, the best since Aug 29. But Garmin said 2:03 before you ran 2:11:13 on Oct 25, so read it as a ceiling, not a forecast. The marathon is back to 4:35."
   },
 
   /* --- Snapshot from Garmin today --- */
   status: {
-    trainingStatus: "Maintaining",
-    readinessScore: 69,
-    readinessLevel: "Moderate · good sleep history",
-    recoveryHours: 7.8,
-    hrvStatus: "Balanced · 7-day avg 42 ms",
-    restingHR: 57,
-    rhr7Day: 58,
+    /* Re-pulled Nov 15: readiness, recovery, HRV, resting HR, acute load.
+       Not re-pulled (no Garmin tool for them here): trainingStatus, vo2max,
+       chronicLoad, loadBalance. Those are still the Nov 14 values. */
+    trainingStatus: "Maintaining (Nov 14)",
+    readinessScore: 9,
+    readinessLevel: "Poor · was 80 at wake-up, dropped after the 18.8 km run (TE 5.0)",
+    recoveryHours: 0,  /* Garmin reports 0 h, but recovery factor is 10% (POOR). Go by readiness, not this. */
+    hrvStatus: "Good · 7-day avg 42 ms",
+    restingHR: 56,
+    rhr7Day: 57,
     vo2max: 45.1,
-    acuteLoad: 404,
+    acuteLoad: 639,
     chronicLoad: 358,
-    acwr: "1.1 · optimal",
-    loadBalance: "Anaerobic shortage — high-aerobic over target"
+    acwr: "≈1.8 (est. against Nov 14 chronic) · high",
+    loadBalance: "Anaerobic shortage — high-aerobic over target (Nov 14)"
   },
 
   benchmarks: [
@@ -133,11 +137,12 @@ window.TRAINING_DATA = {
   weeklyKm: [
     ["Aug 17", 34.5], ["Aug 24", 5.8], ["Aug 31", 10.3], ["Sep 7", 0], ["Sep 14", 2.3],
     ["Sep 21", 0], ["Sep 28", 12.3], ["Oct 5", 13.8], ["Oct 12", 19.7], ["Oct 19", 36.6],
-    ["Oct 26", 15.9], ["Nov 2", 19.4], ["Nov 9", 16.3]
+    ["Oct 26", 15.9], ["Nov 2", 19.4], ["Nov 9", 35.1]
   ],
   weeklyTargetKm: { hm: 40, m: 55 },
 
   recentRuns: [
+    { date: "2026-11-15", name: "Bramfeld I? (tagged race)", km: 18.84, time: "1:51:37", pace: "5:55", hr: 147, cad: 162 },
     { date: "2026-11-12", name: "Base",          km: 7.26,  time: "43:02",   pace: "5:56", hr: 146, cad: 158 },
     { date: "2026-11-09", name: "Run",           km: 9.02,  time: "54:28",   pace: "6:02", hr: 152, cad: 159 },
     { date: "2026-11-07", name: "Long Run",      km: 12.25, time: "1:14:59", pace: "6:07", hr: 148, cad: 157 },
@@ -164,7 +169,7 @@ window.TRAINING_DATA = {
     { date: "2026-09-06", name: "Alsterlauf",                          km: 10,    result: null,      note: "ran 10.3 km easy instead" },
     { date: "2026-09-20", name: "PSD Bank Halbmarathon",               km: 21.1,  result: null,      note: "not run" },
     { date: "2026-10-25", name: "hella Hamburg Halbmarathon",          km: 21.1,  result: "2:11:13", note: "goal was 2:05" },
-    { date: "2026-11-15", name: "Bramfelder Winterlaufserie I",        km: 23.3,  start: "09:30", goal: "2:29:00", upcoming: true },
+    { date: "2026-11-15", name: "Bramfelder Winterlaufserie I",        km: 23.3,  result: null,      note: "Garmin: 18.84 km in 1:51:37, tagged race, start 09:41. Official result not in Garmin; confirm distance and time" },
     { date: "2026-11-29", name: "St. Pauli Xmas Run",                  km: 5,     start: "11:30", goal: "sub-25:00", upcoming: true },
     { date: "2027-01-17", name: "Bramfelder Winterlaufserie III",      km: 23.3,  start: "09:30", goal: "2:10:00", garminPred: "2:18:58", primary: true, upcoming: true }
   ],
@@ -204,22 +209,22 @@ window.TRAINING_DATA = {
      "plan" = Claude's suggestion beyond what Garmin has scheduled. --- */
   schedule: [
     { date: "2026-11-14", dow: "Sat", type: "cross",   src: "adj",   title: "Swim done, no run", playlist: "", detail: "Garmin Coach had a 15 km long run today. Skip it: tomorrow's race is the long run this week." },
-    { date: "2026-11-15", dow: "Sun", type: "race",    src: "adj",   title: "Bramfeld I · 23.3 km · 09:30", playlist: "retroRun", detail: "Run it as a long run at 6:20–6:30 /km, which matches your 2:29 goal (6:24). It's longer than anything since April, so start at 6:35 for the first 3 km. Take 2 gels (km 8 and 16). Last year you ran 2:29:33 here: beat it by staying even.", key: true },
-    { date: "2026-11-16", dow: "Mon", type: "cross",   src: "coach", title: "Strength: Base Builder 1 (60 min)", videos: ["strength22", "legsCore12"], detail: "From Garmin Coach. The workout is on your watch, or follow one of the videos. Keep it light the day after 23 km; drop the leg work if your calves are sore." },
-    { date: "2026-11-17", dow: "Tue", type: "workout", src: "adj",   title: "Threshold · 6.3 km @ 5:05 (Garmin Coach)", videos: ["warmup5"], detail: "If morning readiness is under 50, move it to Wed. These are the anaerobic and threshold minutes Garmin says you're missing." },
-    { date: "2026-11-18", dow: "Wed", type: "rest",    src: "coach", title: "Rest", detail: "" },
-    { date: "2026-11-19", dow: "Thu", type: "easy",    src: "coach", title: "Base 8.7 km @ 6:10 + Core Circuit 2", videos: ["core10", "stretch7"], detail: "Keep HR under 145. Your last two 'base' runs were at 146 and 152, which is why the high-aerobic load is over target." },
+    { date: "2026-11-15", dow: "Sun", type: "race",    src: "adj",   title: "Bramfeld I · done: 18.84 km @ 5:55", playlist: "retroRun", detail: "Garmin: 1:51:37, HR 147 avg / 162 max, cadence 162, TE 5.0 (tempo), load 254. Planned as a long run at 6:20–6:30; you ran it ~30 s/km faster. You started at 6:14 and HR 130, and finished km 17–19 at 5:52, 5:49, 5:48 with no fade. Against Oct 25 that's 13 s/km faster at 6 bpm lower. It's the best long effort since April. It was also a race effort, not a long run: readiness dropped from 80 to 9 and acute load went to 639. The week below is changed to absorb it.", key: true },
+    { date: "2026-11-16", dow: "Mon", type: "cross",   src: "coach", title: "Strength: Base Builder 1 (60 min)", videos: ["strength22", "legsCore12"], detail: "From Garmin Coach. Core and upper body only today; skip the leg work after yesterday's TE 5.0 run. A walk is fine too." },
+    { date: "2026-11-17", dow: "Tue", type: "rest",    src: "adj",   title: "Rest or swim", detail: "Garmin Coach has the 6.3 km threshold today. Moved to Thursday: readiness was 9 on Sunday afternoon, and threshold work two days after a TE 5.0 run just adds load without adding fitness." },
+    { date: "2026-11-18", dow: "Wed", type: "easy",    src: "adj",   title: "Base 8.7 km + Core Circuit 2 (moved from Thu)", videos: ["core10", "stretch7"], detail: "Garmin Coach's Thursday base run, a day early. HR under 145, whatever that does to pace. Last week's base runs were at 146 and 152. If readiness is still under 40, cut it to 6 km." },
+    { date: "2026-11-19", dow: "Thu", type: "workout", src: "adj",   title: "Threshold · 6.3 km (Garmin Coach) @ 5:20–5:30", videos: ["warmup5"], detail: "Moved from Tuesday. Garmin Coach says 5:05, which is faster than your 5K PR pace (5:09) and comes from the same model that predicted 2:03 before a 2:11. Threshold should be slower than 10K pace (PR 5:25), so run the reps at 5:20–5:30. Comfortably hard: you could say a short sentence. Readiness under 50 → easy 6 km instead." },
     { date: "2026-11-20", dow: "Fri", type: "rest",    src: "coach", title: "Rest", detail: "" },
     { date: "2026-11-21", dow: "Sat", type: "easy",    src: "plan",  title: "Easy 5 km + 4 strides", videos: ["strides"], playlist: "popRun", detail: "Follow the Garmin Coach workout if it schedules something different." },
-    { date: "2026-11-22", dow: "Sun", type: "long",    src: "plan",  title: "Long 14 km @ 6:30–6:45", detail: "End of the Base phase. Fully conversational.", key: true },
+    { date: "2026-11-22", dow: "Sun", type: "long",    src: "plan",  title: "Long 14 km @ 6:30–6:45", detail: "End of the Base phase. Fully conversational, HR under 145. Shorter and much slower than today on purpose. Today showed you can cover the distance; this one shows you can run long without it costing a week.", key: true },
 
     { date: "2026-11-23", dow: "Mon", type: "rest",    src: "plan",  title: "Rest / strength", playlist: "workout", videos: ["strength10", "bulgarian"], detail: "Build phase starts. 10 min strength if you have the energy." },
-    { date: "2026-11-24", dow: "Tue", type: "workout", src: "plan",  title: "9 km with 5 × 1 km @ 5:10–5:15", videos: ["warmup5"], detail: "2 min jog between. 2 km warm-up and cool-down. ~9 km total." },
+    { date: "2026-11-24", dow: "Tue", type: "workout", src: "plan",  title: "9 km with 5 × 1 km @ 5:15–5:20", videos: ["warmup5"], detail: "2 min jog between. 2 km warm-up and cool-down. ~9 km total. 5 s/km slower than before: 1 km reps belong just under 10K pace (5:25), not at 5K pace five days before the 5K." },
     { date: "2026-11-25", dow: "Wed", type: "rest",    src: "plan",  title: "Rest or swim", detail: "" },
     { date: "2026-11-26", dow: "Thu", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "HR under 145." },
     { date: "2026-11-27", dow: "Fri", type: "rest",    src: "plan",  title: "Rest", detail: "" },
     { date: "2026-11-28", dow: "Sat", type: "easy",    src: "plan",  title: "Shakeout 4 km + 3 strides", videos: ["strides"], playlist: "popRun", detail: "" },
-    { date: "2026-11-29", dow: "Sun", type: "race",    src: "plan",  title: "St. Pauli Xmas Run 5K · 11:30", detail: "Race this one, unlike last year's fun run. Garmin predicts 25:02 and your PR is 25:44 from 2023. Start at 5:05 and finish strong. It's an honest speed check, and a sub-25 means sub-2 half speed is already there. Jog 4–5 km afterwards.", key: true },
+    { date: "2026-11-29", dow: "Sun", type: "race",    src: "plan",  title: "St. Pauli Xmas Run 5K · 11:30", detail: "Race this one, unlike last year's fun run. Garmin now predicts 24:36 and your PR is 25:44 from 2023. Start at 5:05 and finish strong. It's an honest speed check, and a sub-25 means sub-2 half speed is already there. Jog 4–5 km afterwards.", key: true },
 
     { date: "2026-11-30", dow: "Mon", type: "rest",    src: "plan",  title: "Rest", detail: "" },
     { date: "2026-12-01", dow: "Tue", type: "easy",    src: "plan",  title: "Easy 8 km", detail: "" },
@@ -235,7 +240,7 @@ window.TRAINING_DATA = {
     { zone: "Long run",            pace: "6:20–6:45", cue: "Conversational. Fuel from 75 min on.",                      tone: "easy" },
     { zone: "Marathon goal",       pace: "5:40",      cue: "Sub-4:00 needs 5:41. Practise it in long-run blocks from May.", tone: "goal" },
     { zone: "Half goal",           pace: "5:38",      cue: "Sub-2:00 needs 5:41. The last 5 km of long runs from Feb.",     tone: "goal" },
-    { zone: "Threshold",           pace: "5:05–5:20", cue: "Garmin Coach prescribes 5:05. Comfortably hard, 20–30 min total.", tone: "hard" },
+    { zone: "Threshold",           pace: "5:20–5:30", cue: "Garmin Coach prescribes 5:05, which is quicker than your 5K PR. Run it here instead. Comfortably hard, 20–30 min total.", tone: "hard" },
     { zone: "Intervals",           pace: "4:50–4:55", cue: "800 m–1 km reps. The anaerobic work Garmin says is short.",   tone: "hard" },
     { zone: "Strides",             pace: "4:30–4:45", cue: "20 s, relaxed and fast.",                                    tone: "hard" }
   ],
@@ -243,7 +248,9 @@ window.TRAINING_DATA = {
   /* --- Read of the data --- */
   keys: [
     { title: "Speed isn't the problem, consistency is",
-      body: "Garmin's 10K prediction of 54:08 is, on standard equivalence tables, already close to a 2:00 half. The half prediction (2:03:38) is only 10 s/km off. But from 17 Aug to 8 Nov you averaged 14 km a week, with a month of almost nothing in September. The marathon prediction moving from 4:31 to 4:41 is that gap showing up." },
+      body: "Garmin's 10K prediction of 53:21 is, on standard equivalence tables, already a sub-2:00 half. The half prediction (2:01:41) is only 5 s/km off. But Garmin said 2:03 before Oct 25 and you ran 2:11:13, so it overrates you by several minutes over 21 km. But from 17 Aug to 8 Nov you averaged 14 km a week, with a month of almost nothing in September. The marathon prediction moving from 4:31 to 4:41 is that gap showing up." },
+    { title: "Nov 15: the fade is gone, but it was a race effort",
+      body: "18.84 km at 5:55 /km and HR 147, getting faster all the way: 6:14 at the start, 5:48 at the end. On Oct 25 you faded from km 16 to 6:23. On Nov 15 you didn't fade. Stride 104 cm vs 101.7, ground contact 263 ms vs 276: form held as you tired. That puts you ~14 s/km off sub-2 pace (5:41) over 19 km, down from ~32 s/km at Hamburg. The cost: TE 5.0, readiness 80 → 9, acute load 639, probably ~1.8× chronic. That's high-risk territory. Repeat this every Sunday off 35 km weeks and you'll get the next gap. Next week is easy for that reason." },
     { title: "The last six weeks are genuinely better",
       body: "You've run three times a week since October. Your aerobic pace has improved a lot: in September, 6:41 /km cost HR 141; this week, 5:56 cost HR 146. Cadence is up from 150 to 157–159. VO2 max is 45, HRV is balanced, and acute:chronic load is 1.1 (optimal). This is the base to build on. Don't lose it over Christmas." },
     { title: "Easy runs are a bit too hard; hard runs are missing",
