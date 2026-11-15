@@ -1,4 +1,4 @@
-const CACHE='sub2-daily-v1';
+const CACHE='sub2-daily-v2';
 const FILES=['./','./index.html','./app.css','./app.js','./data.js','./manifest.webmanifest'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('sub2-daily-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});

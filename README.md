@@ -107,3 +107,9 @@ live Garmin connection or automatic activity matching.
 
 For development, serve the directory with a static HTTP server. No build step is needed.
 Bump the cache name in `sw.js` when changing the application shell.
+
+Progress starts with a half-marathon goal dashboard: seconds and pace to target,
+watch best effort, dated Garmin prediction history with an accessible values table,
+and recent volume context. Gaps use the current prediction and goal seconds; they
+are not a readiness score. The four-week volume average excludes the last, potentially
+partial week. Recent running-day counts describe the saved list, not a complete import.
