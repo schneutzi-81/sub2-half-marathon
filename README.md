@@ -86,3 +86,24 @@ Day-by-day sessions live in the `schedule` array in `data.js` and are grouped in
 
 `type` is one of `rest` · `easy` · `workout` · `long` · `race` · `cross`. `src` is `coach` (Garmin Coach), `adj` (adjusted) or `plan` (suggested) — it drives the colour of
 the tag. `key: true` highlights a session as one that matters more than the others.
+
+
+## Daily training interface
+
+The mobile interface has Today, Week and Progress views. `app.js` renders the existing
+`data.js` schema, and `app.css` contains responsive styles. `sw.js` caches the plan for
+offline use after an online visit. Online requests refresh the cached files.
+
+Session outcomes, effort, soreness, actual minutes and date changes are saved in this
+browser under `sub2.training.v2`. Existing checklist completions are migrated. Use
+Progress → Export backup / Restore a backup to transfer notes; restores merge by session.
+Session keys use the original date and occurrence on that date, so keep dates stable
+when refreshing the plan. Moving a session does not change its key or Garmin workouts.
+Do not reorder multiple sessions sharing an original date when refreshing data.
+
+Time-limited options are easy-run replacements, not equivalent versions of quality
+workouts. Recovery metrics always display the Garmin snapshot timestamp. There is no
+live Garmin connection or automatic activity matching.
+
+For development, serve the directory with a static HTTP server. No build step is needed.
+Bump the cache name in `sw.js` when changing the application shell.
